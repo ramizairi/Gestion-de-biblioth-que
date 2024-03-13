@@ -1,0 +1,105 @@
+.leftsidepane {
+    -fx-background-color: #6c5ce7;
+    -fx-background-radius: 20px;
+}
+.rightsidepane{
+
+}
+.btn {
+    -fx-background-color:  transparent;
+    -fx-background-radius: 15px;
+    -fx-border-color: white;
+    -fx-border-radius: 15px;
+}
+.btn:hover {
+    -fx-background-color: red;
+}
+.innerpane {
+    -fx-background-color: #6c5ce7;
+    -fx-background-radius: 20px;
+}
+.logoleftpane {
+    -fx-show-delay: 5s;
+}
+.hpane {
+    -fx-background-color: #6c5ce7;
+    -fx-background-radius: 10px;
+}
+.hbtn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 15px;
+}
+.hbtn:hover {
+    -fx-background-color: red;
+}   
+.userimage {
+    -fx-background-radius: 50%; 
+    -fx-border-radius: 50%; 
+}
+
+.anchor1 {
+    -fx-background-color: #dfe6e9;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 6, 0, 0, 0);
+    
+}
+.infos {
+    -fx-background-color: #b2bec3;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+}
+.infos:hover {
+    -fx-background-color: red;
+}
+.bookinput:hover {
+    -fx-background-color: red;
+}
+.upimage {
+    -fx-background-color: #b2bec3;
+    -fx-background-radius: 10px;
+}
+.pickdate {
+    -fx-background-radius: 20px;
+    -fx-background-color: transparent;
+}
+.inputs{
+    -fx-border-color: white;
+    -fx-border-radius: 5px;
+    -fx-background-color:  #dfe6e9;
+}
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #6c5ce7;
+    -fx-border-radius: 8px;
+    -fx-padding: 0px;
+}
+.table-view .table-column {
+    -fx-alignment: center;
+    -fx-background-color: #6c5ce7;
+}
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 8px 8px 0 0;
+    
+}
+.table-view .column-header, .filter {
+    background-color: transparent;
+    -fx-size:  40px;
+}
+.table-view .column-header, .label {
+    -fx-text-fill: #fff;
+}
+
+.closebtn {
+    -fx-background-color: transparent;
+}
+.closebtn:hover {
+    -fx-background-color: red;
+}
+.minimisebtn {
+    -fx-background-color: transparent;
+}
+.minimisebtn:hover {
+    -fx-background-color: green;
+}
