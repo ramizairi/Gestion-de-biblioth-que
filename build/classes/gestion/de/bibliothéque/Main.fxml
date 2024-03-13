@@ -140,7 +140,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_books_number" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_books_number" fill="WHITE" layoutX="89.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="78.39999999999998">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -159,7 +159,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_available_books" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_available_books" fill="WHITE" layoutX="79.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="85.7890625">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -245,7 +245,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="gerer_clients_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
+            <AnchorPane fx:id="gerer_clients_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                <children>
                   <AnchorPane fx:id="anchor111" prefHeight="150.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                      <children>
@@ -261,7 +261,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_client_number" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_client_number" fill="WHITE" layoutX="91.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="77.53125">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -280,7 +280,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_actifs_clients" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_actifs_clients" fill="WHITE" layoutX="90.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="78.39999999999998">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -299,7 +299,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_retard_clients" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_retard_clients" fill="WHITE" layoutX="97.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="66.40000000000009">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -364,7 +364,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="gerer_reservation_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
+            <AnchorPane fx:id="gerer_reservation_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
                <children>
                   <AnchorPane prefHeight="150.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                      <children>

@@ -464,6 +464,10 @@ public class dashboardController implements Initializable {
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: transparent");
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
             addBookGenreList();
         } else if (event.getSource() == voir_reservation_btn) {
             gerer_livre_form.setVisible(false);
@@ -474,6 +478,10 @@ public class dashboardController implements Initializable {
             voir_reservation_btn.setStyle("-fx-background-color: red");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: transparent");
+
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
         } else if (event.getSource() == gerer_client_btn) {
             gerer_livre_form.setVisible(false);
             gerer_reservation_form.setVisible(false);
@@ -483,6 +491,10 @@ public class dashboardController implements Initializable {
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: red;");
             stats_btn.setStyle("-fx-background-color: transparent");
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
         } else if (event.getSource() == stats_btn) {
             gerer_livre_form.setVisible(false);
             gerer_reservation_form.setVisible(false);
@@ -712,6 +724,71 @@ public class dashboardController implements Initializable {
         AddClient_Num.clear();
         AddClient_Mail.clear();
         AddClient_Password.clear();
+    }
+
+    public void TotalClients() {
+
+        String sql = "SELECT COUNT(id_abonné) FROM abonné";
+
+        connect = database.connectDb();
+        int countData = 0;
+        try {
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                countData = result.getInt("COUNT(id_abonné)");
+            }
+
+            total_client_number.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void TotalActifClients() {
+        String sql = "SELECT COUNT(id_livre) FROM reservation WHERE statut = 1";
+
+        connect = database.connectDb();
+        int countData = 0;
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                countData = result.getInt(1);
+            }
+
+            // Afficher le nombre total de réservations actives
+            total_actifs_clients.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void TotalLateReturns() {
+        String sql = "SELECT COUNT(id_livre) FROM reservation WHERE statut = 1 AND date_retour_reel > date_retour_prevue";
+
+        connect = database.connectDb();
+        int countLateReturns = 0;
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                countLateReturns = result.getInt(1);
+            }
+
+            // Afficher le nombre total de retours en retard
+            total_retard_clients.setText(String.valueOf(countLateReturns));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //---------------BOOK------------------------------
@@ -1006,6 +1083,83 @@ public class dashboardController implements Initializable {
         AddBook_NbCopie.clear();
         AddBook_Price.clear();
         AddBook_Desc.clear();
+    }
+
+    public void TotalBooks() {
+        String sql = "SELECT SUM(`nb-copie`) AS total_copies FROM livre";
+
+        connect = database.connectDb();
+        int totalCopies = 0;
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                totalCopies = result.getInt("total_copies");
+            }
+
+            // Afficher le nombre total de copies de livres
+            total_books_number.setText(String.valueOf(totalCopies));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void TotalAvailableBooks() {
+        String sqlTotalBooks = "SELECT SUM(`nb-copie`) AS total_copies FROM livre";
+        String sqlReservations = "SELECT COUNT(id_res) FROM reservation WHERE statut = 1";
+
+        connect = database.connectDb();
+        int totalBooks = 0;
+        int totalReservations = 0;
+        try {
+            // Obtenir le total des livres
+            prepare = connect.prepareStatement(sqlTotalBooks);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                totalBooks = result.getInt("total_copies");
+            }
+
+            // Obtenir le total des réservations avec statut = 0
+            prepare = connect.prepareStatement(sqlReservations);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                totalReservations = result.getInt(1);
+            }
+
+            // Calculer le total des livres disponibles
+            int totalAvailableBooks = totalBooks - totalReservations;
+
+            // Afficher le nombre total de livres disponibles
+            total_available_books.setText(String.valueOf(totalAvailableBooks));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void TotalEmpruntedBooks() {
+        String sql = "SELECT COUNT(id_livre) FROM reservation WHERE statut = 1";
+
+        connect = database.connectDb();
+        int countData = 0;
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                countData = result.getInt(1);
+            }
+
+            // Afficher le nombre total de réservations en attente
+            total_emprunted_books.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //---------------RESERVATION---------------
@@ -1334,7 +1488,7 @@ public class dashboardController implements Initializable {
             prepare = connect.prepareStatement(sql);
             prepare.setString(1, code);
             int rowsAffected = prepare.executeUpdate();
-            
+
             if (rowsAffected > 0) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Information Message");
@@ -1372,6 +1526,71 @@ public class dashboardController implements Initializable {
         }
     }
 
+    public void TotalReservation() {
+
+        String sql = "SELECT COUNT(id_res) FROM reservation";
+
+        connect = database.connectDb();
+        int countData = 0;
+        try {
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                countData = result.getInt("COUNT(id_res)");
+            }
+
+            total_reservation_number.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void TotalActifReservations() {
+        String sql = "SELECT COUNT(id_res) FROM reservation WHERE statut = 1";
+
+        connect = database.connectDb();
+        int countData = 0;
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                countData = result.getInt(1);
+            }
+
+            // Afficher le nombre total de réservations actives
+            total_actives_reservation_number.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void TotalAttentReservations() {
+        String sql = "SELECT COUNT(id_res) FROM reservation WHERE statut = 0";
+
+        connect = database.connectDb();
+        int countData = 0;
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                countData = result.getInt(1);
+            }
+
+            // Afficher le nombre total de réservations en attente
+            total_attente_reservation_number.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //---------------MAIN----------------------
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -1380,6 +1599,19 @@ public class dashboardController implements Initializable {
         showReservationListData();
         //Charge the combolist items 
         addBookGenreList();
+
+        //Inner - Stats
+        TotalReservation();
+        TotalActifReservations();
+        TotalAttentReservations();
+
+        TotalBooks();
+        TotalAvailableBooks();
+        TotalEmpruntedBooks();
+
+        TotalClients();
+        TotalActifClients();
+        TotalLateReturns();
 
     }
 
