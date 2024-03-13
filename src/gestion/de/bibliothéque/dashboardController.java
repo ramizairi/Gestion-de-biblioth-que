@@ -494,7 +494,7 @@ public class dashboardController implements Initializable {
 
             TotalClients();
             TotalActifClients();
-            TotalLateReturns();
+            TotalLateReturns();   
         } else if (event.getSource() == stats_btn) {
             gerer_livre_form.setVisible(false);
             gerer_reservation_form.setVisible(false);
