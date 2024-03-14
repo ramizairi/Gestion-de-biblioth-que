@@ -103,3 +103,7 @@
 .minimisebtn:hover {
     -fx-background-color: green;
 }
+.addbookimage{
+    -fx-background-color: #b2bec3;
+    -fx-background-radius: 10px;
+}

@@ -53,12 +53,12 @@
                   <Image url="@Ressources/users.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="stats_btn" layoutX="17.0" layoutY="265.0" onAction="#switchForm" prefHeight="34.0" prefWidth="188.0" styleClass="btn" stylesheets="@style.css" text="Statistiques" textFill="WHITE">
+            <JFXButton fx:id="stats_btn" layoutX="17.0" layoutY="305.0" onAction="#switchForm" prefHeight="34.0" prefWidth="188.0" styleClass="btn" stylesheets="@style.css" text="Statistiques" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
             </JFXButton>
-            <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="29.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="29.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Ressources/stats.png" />
                </image>
@@ -96,6 +96,16 @@
                   <Image url="@Ressources/logo.png" />
                </image>
             </ImageView>
+            <JFXButton fx:id="gerer_auth_btn" layoutX="17.0" layoutY="263.0" onAction="#switchForm" prefHeight="34.0" prefWidth="188.0" styleClass="btn" stylesheets="@style.css" text="Gérer les écrivains" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXButton>
+            <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="29.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Ressources/auth.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="rightsidepane" layoutX="222.0" layoutY="30.0" prefHeight="590.0" prefWidth="698.0" styleClass="search" stylesheets="@style.css">
@@ -124,7 +134,7 @@
                   <Text fx:id="username" fill="WHITE" layoutX="91.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="rami" />
                </children>
             </Pane>
-            <AnchorPane fx:id="gerer_livre_form" layoutX="12.0" layoutY="68.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
+            <AnchorPane fx:id="gerer_livre_form" layoutX="12.0" layoutY="68.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                <children>
                   <AnchorPane prefHeight="150.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                      <children>
@@ -204,7 +214,7 @@
                   <TextField fx:id="AddBook_NbCopie" layoutX="190.0" layoutY="422.0" prefHeight="27.0" prefWidth="78.0" promptText="NB copies" style="-fx-background-color: #dfe6e9;" styleClass="inputs" stylesheets="@style.css" />
                   <AnchorPane layoutX="370.0" layoutY="375.0" prefHeight="94.0" prefWidth="110.0" styleClass="anchor1">
                      <children>
-                        <ImageView fx:id="AddBook_image" fitHeight="85.0" fitWidth="101.0" layoutX="4.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="AddBook_image" fitHeight="85.0" fitWidth="101.0" layoutX="4.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" styleClass="addbookimage">
                            <image>
                               <Image url="@Ressources/image%20here.png" />
                            </image>
@@ -245,7 +255,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="gerer_clients_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
+            <AnchorPane fx:id="gerer_clients_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
                <children>
                   <AnchorPane fx:id="anchor111" prefHeight="150.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                      <children>
@@ -364,7 +374,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="gerer_reservation_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
+            <AnchorPane fx:id="gerer_reservation_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                <children>
                   <AnchorPane prefHeight="150.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                      <children>
@@ -380,7 +390,7 @@
                                     <Font size="19.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_reservation_number" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_reservation_number" fill="WHITE" layoutX="79.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="85.7890625">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -399,7 +409,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_actives_reservation_number" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_actives_reservation_number" fill="WHITE" layoutX="79.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="85.7890625">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -418,7 +428,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_attente_reservation_number" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_attente_reservation_number" fill="WHITE" layoutX="89.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="78.39999999999998">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -484,9 +494,107 @@
                   <TextField fx:id="AddReservation_IDSubscriber" layoutX="22.0" layoutY="466.0" prefWidth="151.0" promptText="ID Abonné" styleClass="inputs" />
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="gerer_auth_form" layoutX="9.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
+               <children>
+                  <AnchorPane prefHeight="150.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
+                     <children>
+                        <Pane layoutX="104.0" layoutY="9.0" prefHeight="132.0" prefWidth="178.0" styleClass="infos" stylesheets="@style.css">
+                           <children>
+                              <ImageView fitHeight="65.0" fitWidth="92.0" layoutX="14.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Ressources/nb-écrivains.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutX="6.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total des écrivains">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="total_auth_number" fill="WHITE" layoutX="97.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="66.40000000000009">
+                                 <font>
+                                    <Font size="33.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="infos121" layoutX="402.0" layoutY="9.0" prefHeight="132.0" prefWidth="178.0" styleClass="infos" stylesheets="@style.css">
+                           <children>
+                              <ImageView fitHeight="65.0" fitWidth="92.0" layoutX="14.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Ressources/books.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutX="7.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de livres ecrit">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="total_auth_books_number" fill="WHITE" layoutX="89.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="77.53125">
+                                 <font>
+                                    <Font size="33.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="AddAuth_tableview" layoutX="5.0" layoutY="157.0" onMouseClicked="#AddAuthSelect" prefHeight="206.0" prefWidth="667.0">
+                     <columns>
+                        <TableColumn fx:id="AddAuteur_Col_ID" prefWidth="82.40000915527344" text="ID" />
+                        <TableColumn fx:id="AddAuteur_Col_FName" prefWidth="190.39996337890625" text="Nom" />
+                        <TableColumn fx:id="AddAuteur_Col_LName" minWidth="0.0" prefWidth="204.7999267578125" text="Prénom" />
+                        <TableColumn fx:id="AddAuteur_Col_Nationality" prefWidth="190.39996337890625" text="Nationalité" />
+                     </columns>
+                  </TableView>
+                  <TextField fx:id="AddAuth_ID" disable="true" layoutX="27.0" layoutY="401.0" promptText="ID" styleClass="inputs" />
+                  <TextField fx:id="AddAuth_Fname" layoutX="27.0" layoutY="444.0" prefWidth="151.0" promptText="Nom" styleClass="inputs" />
+                  <TextField fx:id="AddAuth_Nationality" layoutX="201.0" layoutY="399.0" promptText="Nationalité" styleClass="inputs" />
+                  <JFXButton fx:id="AddAuth_btn" layoutX="369.0" layoutY="397.0" onAction="#addAuthAdd" prefHeight="30.0" prefWidth="131.0" style="-fx-background-color: green;" styleClass="upimage" text="Ajouter" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="376.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Ressources/add.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="UpdateAuth_btn" layoutX="369.0" layoutY="441.0" onAction="#modifyAuth" prefHeight="30.0" prefWidth="131.0" style="-fx-background-color: orange;" styleClass="upimage" text="Modifier" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="376.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Ressources/modifie.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="ClearAuth_btn" layoutX="527.0" layoutY="441.0" onAction="#clearAuthFields" prefHeight="30.0" prefWidth="131.0" style="-fx-background-color: blue;" styleClass="upimage" text="Actualisé" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="534.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Ressources/clean.png" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="AddAuth_Lname" layoutX="201.0" layoutY="443.0" prefWidth="151.0" promptText="Prénom" styleClass="inputs" />
+                  <JFXButton fx:id="DeleteAuth_btn" layoutX="527.0" layoutY="397.0" onAction="#deleteAuth" prefHeight="30.0" prefWidth="131.0" style="-fx-background-color: red;" styleClass="upimage" text="Supprimer" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="534.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Ressources/delete.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="stats_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
                <children>
-                  <BarChart layoutX="344.0" layoutY="41.0" prefHeight="187.0" prefWidth="322.0">
+                  <BarChart fx:id="CA_chart" layoutX="344.0" layoutY="41.0" prefHeight="187.0" prefWidth="322.0">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -499,7 +607,7 @@
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <LineChart layoutX="5.0" layoutY="41.0" prefHeight="187.0" prefWidth="334.0">
+                  <LineChart fx:id="nb_clients_chart" layoutX="5.0" layoutY="41.0" prefHeight="187.0" prefWidth="334.0">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -512,13 +620,13 @@
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <PieChart layoutX="48.0" layoutY="274.0" prefHeight="206.0" prefWidth="278.0" style="-fx-background-color: red;" />
+                  <PieChart fx:id="etat_books_cercle" layoutX="48.0" layoutY="274.0" prefHeight="206.0" prefWidth="278.0" style="-fx-background-color: red;" />
                   <Text fill="#818080" layoutX="17.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="État des livres">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <PieChart layoutX="374.0" layoutY="274.0" prefHeight="206.0" prefWidth="278.0" style="-fx-background-color: red;" />
+                  <PieChart fx:id="reservations_statuts" layoutX="374.0" layoutY="274.0" prefHeight="206.0" prefWidth="278.0" style="-fx-background-color: red;" />
                   <Text fill="#818080" layoutX="343.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Les réservations">
                      <font>
                         <Font size="20.0" />

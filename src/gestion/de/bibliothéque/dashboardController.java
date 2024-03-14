@@ -44,11 +44,72 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 
 public class dashboardController implements Initializable {
+
+    @FXML
+    private TextField AddAuth_Fname;
+
+    @FXML
+    private TextField AddAuth_ID;
+
+    @FXML
+    private TextField AddAuth_Lname;
+
+    @FXML
+    private TextField AddAuth_Nationality;
+
+    @FXML
+    private JFXButton ClearAuth_btn;
+
+    @FXML
+    private JFXButton DeleteAuth_btn;
+
+    @FXML
+    private JFXButton UpdateAuth_btn;
+
+    @FXML
+    private JFXButton gerer_auth_btn;
+
+    @FXML
+    private Text total_auth_number;
+
+    @FXML
+    private Text total_auth_books_number;
+
+    @FXML
+    private TableView<AuthData> AddAuth_tableview;
+
+    @FXML
+    private TableColumn<AuthData, String> AddAuteur_Col_FName;
+
+    @FXML
+    private TableColumn<AuthData, Integer> AddAuteur_Col_ID;
+
+    @FXML
+    private TableColumn<AuthData, String> AddAuteur_Col_LName;
+
+    @FXML
+    private TableColumn<AuthData, String> AddAuteur_Col_Nationality;
+
+    @FXML
+    private LineChart<?, ?> nb_clients_chart;
+
+    @FXML
+    private BarChart<?, ?> CA_chart;
+
+    @FXML
+    private PieChart reservations_statuts;
+
+    @FXML
+    private PieChart etat_books_cercle;
 
     @FXML
     private TextField AddBook_Auth;
@@ -234,6 +295,9 @@ public class dashboardController implements Initializable {
     private AnchorPane gerer_clients_form;
 
     @FXML
+    private AnchorPane gerer_auth_form;
+
+    @FXML
     private JFXButton gerer_livre_btn;
 
     @FXML
@@ -383,6 +447,91 @@ public class dashboardController implements Initializable {
         System.exit(0);
     }
 
+    public void display_username() {
+        username.setText(getData.username);
+        //Dans le login = getData.username = username.getText();
+    }
+
+    public void minimize() {
+        Stage stage = (Stage) main_form.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    public void switchForm(ActionEvent event) {
+        if (event.getSource() == gerer_livre_btn) {
+            gerer_livre_form.setVisible(true);
+            gerer_reservation_form.setVisible(false);
+            gerer_clients_form.setVisible(false);
+            gerer_auth_form.setVisible(false);
+            stats_form.setVisible(false);
+            gerer_livre_btn.setStyle("-fx-background-color: red;");
+            voir_reservation_btn.setStyle("-fx-background-color: transparent");
+            gerer_client_btn.setStyle("-fx-background-color: transparent");
+            gerer_auth_btn.setStyle("-fx-background-color: transparent");
+            stats_btn.setStyle("-fx-background-color: transparent");
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+            addBookGenreList();
+        } else if (event.getSource() == voir_reservation_btn) {
+            gerer_livre_form.setVisible(false);
+            gerer_reservation_form.setVisible(true);
+            gerer_clients_form.setVisible(false);
+            gerer_auth_form.setVisible(false);
+            stats_form.setVisible(false);
+            gerer_livre_btn.setStyle("-fx-background-color: transparent");
+            voir_reservation_btn.setStyle("-fx-background-color: red");
+            gerer_client_btn.setStyle("-fx-background-color: transparent");
+            gerer_auth_btn.setStyle("-fx-background-color: transparent");
+            stats_btn.setStyle("-fx-background-color: transparent");
+
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+        } else if (event.getSource() == gerer_client_btn) {
+            gerer_livre_form.setVisible(false);
+            gerer_reservation_form.setVisible(false);
+            gerer_clients_form.setVisible(true);
+            gerer_auth_form.setVisible(false);
+            stats_form.setVisible(false);
+            gerer_livre_btn.setStyle("-fx-background-color: transparent");
+            voir_reservation_btn.setStyle("-fx-background-color: transparent");
+            gerer_client_btn.setStyle("-fx-background-color: red;");
+            gerer_auth_btn.setStyle("-fx-background-color: transparent");
+            stats_btn.setStyle("-fx-background-color: transparent");
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+        } else if (event.getSource() == stats_btn) {
+            gerer_livre_form.setVisible(false);
+            gerer_reservation_form.setVisible(false);
+            gerer_clients_form.setVisible(false);
+            gerer_auth_form.setVisible(false);
+            stats_form.setVisible(true);
+            gerer_livre_btn.setStyle("-fx-background-color: transparent");
+            voir_reservation_btn.setStyle("-fx-background-color: transparent");
+            gerer_client_btn.setStyle("-fx-background-color: transparent");
+            gerer_auth_btn.setStyle("-fx-background-color: transparent");
+            stats_btn.setStyle("-fx-background-color: red;");
+        } else if (event.getSource() == gerer_auth_btn) {
+            gerer_livre_form.setVisible(false);
+            gerer_reservation_form.setVisible(false);
+            gerer_clients_form.setVisible(false);
+            gerer_auth_form.setVisible(true);
+            stats_form.setVisible(false);
+            gerer_livre_btn.setStyle("-fx-background-color: transparent");
+            voir_reservation_btn.setStyle("-fx-background-color: transparent");
+            gerer_client_btn.setStyle("-fx-background-color: transparent");
+            gerer_auth_btn.setStyle("-fx-background-color: red");
+            stats_btn.setStyle("-fx-background-color: transparent;");
+
+            TotalAuth();
+            TotalAuthBooks();
+        }
+    }
+
     //-------------CLIENT---------------------
     public ObservableList<AbonneData> addAbonneListData() {
         ObservableList<AbonneData> listData = FXCollections.observableArrayList();
@@ -440,70 +589,6 @@ public class dashboardController implements Initializable {
             AddClient_Num.setText(String.valueOf(abonneData.getNumero()));
             AddClient_Mail.setText(abonneData.getAdresseMail());
             AddClient_Password.setText(abonneData.getPassword());
-        }
-    }
-
-    public void display_username() {
-        username.setText(getData.username);
-        //Dans le login = getData.username = username.getText();
-    }
-
-    public void minimize() {
-        Stage stage = (Stage) main_form.getScene().getWindow();
-        stage.setIconified(true);
-    }
-
-    public void switchForm(ActionEvent event) {
-        if (event.getSource() == gerer_livre_btn) {
-            gerer_livre_form.setVisible(true);
-
-            gerer_reservation_form.setVisible(false);
-            gerer_clients_form.setVisible(false);
-            stats_form.setVisible(false);
-            gerer_livre_btn.setStyle("-fx-background-color: red;");
-            voir_reservation_btn.setStyle("-fx-background-color: transparent");
-            gerer_client_btn.setStyle("-fx-background-color: transparent");
-            stats_btn.setStyle("-fx-background-color: transparent");
-
-            TotalBooks();
-            TotalAvailableBooks();
-            TotalEmpruntedBooks();
-            addBookGenreList();
-        } else if (event.getSource() == voir_reservation_btn) {
-            gerer_livre_form.setVisible(false);
-            gerer_reservation_form.setVisible(true);
-            gerer_clients_form.setVisible(false);
-            stats_form.setVisible(false);
-            gerer_livre_btn.setStyle("-fx-background-color: transparent");
-            voir_reservation_btn.setStyle("-fx-background-color: red");
-            gerer_client_btn.setStyle("-fx-background-color: transparent");
-            stats_btn.setStyle("-fx-background-color: transparent");
-
-            TotalReservation();
-            TotalActifReservations();
-            TotalAttentReservations();
-        } else if (event.getSource() == gerer_client_btn) {
-            gerer_livre_form.setVisible(false);
-            gerer_reservation_form.setVisible(false);
-            gerer_clients_form.setVisible(true);
-            stats_form.setVisible(false);
-            gerer_livre_btn.setStyle("-fx-background-color: transparent");
-            voir_reservation_btn.setStyle("-fx-background-color: transparent");
-            gerer_client_btn.setStyle("-fx-background-color: red;");
-            stats_btn.setStyle("-fx-background-color: transparent");
-
-            TotalClients();
-            TotalActifClients();
-            TotalLateReturns();   
-        } else if (event.getSource() == stats_btn) {
-            gerer_livre_form.setVisible(false);
-            gerer_reservation_form.setVisible(false);
-            gerer_clients_form.setVisible(false);
-            stats_form.setVisible(true);
-            gerer_livre_btn.setStyle("-fx-background-color: transparent");
-            voir_reservation_btn.setStyle("-fx-background-color: transparent");
-            gerer_client_btn.setStyle("-fx-background-color: transparent");
-            stats_btn.setStyle("-fx-background-color: red;");
         }
     }
 
@@ -792,7 +877,7 @@ public class dashboardController implements Initializable {
     }
 
     //---------------BOOK------------------------------
-    private String[] listGenre = {"Roman", "Science-fiction", "Fantaisie", "Mystère", "Policier", "Thriller", "Horreur", "Romance", "Historique", "Aventure", "Dystopie", "Réalisme magique", "Contemporain", "Jeunesse", "Nouvelle", "Biographie", "Autobiographie", "Science", "Philosophie", "Poésie"};
+    private String[] listGenre = {"Finance personnelle", "Roman", "Science-fiction", "Fantaisie", "Mystère", "Policier", "Thriller", "Horreur", "Romance", "Historique", "Aventure", "Dystopie", "Réalisme magique", "Contemporain", "Jeunesse", "Nouvelle", "Biographie", "Autobiographie", "Science", "Philosophie", "Poésie"};
 
     public void addBookGenreList() {
         List<String> listG = new ArrayList<>();
@@ -884,6 +969,13 @@ public class dashboardController implements Initializable {
             AddBook_NbCopie.setText(String.valueOf(bookData.getNbCopies()));
             AddBook_Price.setText(String.valueOf(bookData.getPrice()));
             AddBook_Desc.setText(String.valueOf(bookData.getDescription()));
+
+            getData.path = bookData.getImagePath();
+
+            String uri = "file:" + bookData.getImagePath();
+
+            image = new Image(uri, 101, 85, false, true);
+            AddBook_image.setImage(image);
         }
     }
 
@@ -1591,12 +1683,319 @@ public class dashboardController implements Initializable {
         }
     }
 
+    //---------------Auth----------------------
+    public ObservableList<AuthData> addAuthListData() {
+        ObservableList<AuthData> listData = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM auteur";
+
+        // Establish connection
+        connect = database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+            AuthData AuthD;
+            while (result.next()) {
+                AuthD = new AuthData(
+                        result.getInt("id_auteur"),
+                        result.getString("nom"),
+                        result.getString("prenom"),
+                        result.getString("nationalite")
+                );
+                listData.add(AuthD);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listData;
+    }
+    private ObservableList<AuthData> addAuthList;
+
+    public void addAuthShowListData() {
+        addAuthList = addAuthListData();
+
+        AddAuteur_Col_ID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        AddAuteur_Col_FName.setCellValueFactory(new PropertyValueFactory<>("Fname"));
+        AddAuteur_Col_LName.setCellValueFactory(new PropertyValueFactory<>("Lname"));
+        AddAuteur_Col_Nationality.setCellValueFactory(new PropertyValueFactory<>("Nationality"));
+
+        AddAuth_tableview.setItems(addAuthList);
+    }
+
+    public void AddAuthSelect() {
+        AuthData authData = AddAuth_tableview.getSelectionModel().getSelectedItem();
+
+        if (authData != null) {
+            AddAuth_ID.setText(String.valueOf(authData.getId()));
+            AddAuth_Fname.setText(authData.getFname());
+            AddAuth_Lname.setText(authData.getLname());
+            AddAuth_Nationality.setText(authData.getNationality());
+        }
+    }
+
+    public void addAuthAdd() {
+        if (AddAuth_Fname.getText().isEmpty() || AddAuth_Lname.getText().isEmpty()
+                || AddAuth_Nationality.getText().isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill in all fields.");
+            alert.showAndWait();
+            return;
+        }
+
+        String sql = "INSERT INTO auteur (nom, prenom, nationalite) VALUES (?, ?, ?)";
+
+        connect = database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, AddAuth_Fname.getText());
+            prepare.setString(2, AddAuth_Lname.getText());
+            prepare.setString(3, AddAuth_Nationality.getText());
+            prepare.executeUpdate();
+
+            // Display success message
+            Alert successAlert = new Alert(AlertType.INFORMATION);
+            successAlert.setTitle("Success");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("Auth added successfully.");
+            successAlert.showAndWait();
+
+            // Clear input fields after successful insertion
+            AddAuth_ID.clear();
+            AddAuth_Fname.clear();
+            AddAuth_Lname.clear();
+            AddAuth_Nationality.clear();
+
+            // Refresh client table view
+            addAuthShowListData();
+        } catch (SQLException e) {
+            // Display error message if insertion fails
+            Alert errorAlert = new Alert(AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("Failed to add Auth. Please try again.");
+            errorAlert.showAndWait();
+            e.printStackTrace(); // Print stack trace for debugging purposes
+        } finally {
+            try {
+                // Close resources
+                if (prepare != null) {
+                    prepare.close();
+                }
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void modifyAuth() {
+        AuthData authData = AddAuth_tableview.getSelectionModel().getSelectedItem();
+        if (authData == null) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an author to modify.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (AddAuth_Fname.getText().isEmpty() || AddAuth_Lname.getText().isEmpty()
+                || AddAuth_Nationality.getText().isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill in all fields.");
+            alert.showAndWait();
+            return;
+        }
+
+        String sql = "UPDATE auteur SET nom = ?, prenom = ?, nationalite = ? WHERE id_auteur = ?";
+
+        connect = database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, AddAuth_Fname.getText());
+            prepare.setString(2, AddAuth_Lname.getText());
+            prepare.setString(3, AddAuth_Nationality.getText());
+            prepare.setInt(4, authData.getId());
+            prepare.executeUpdate();
+
+            Alert successAlert = new Alert(AlertType.INFORMATION);
+            successAlert.setTitle("Success");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("Author modified successfully.");
+            successAlert.showAndWait();
+
+            AddAuth_ID.clear();
+            AddAuth_Fname.clear();
+            AddAuth_Lname.clear();
+            AddAuth_Nationality.clear();
+
+            addAuthShowListData();
+        } catch (SQLException e) {
+            Alert errorAlert = new Alert(AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("Failed to modify author. Please try again.");
+            errorAlert.showAndWait();
+            e.printStackTrace();
+        } finally {
+            try {
+                // Close resources
+                if (prepare != null) {
+                    prepare.close();
+                }
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void deleteAuth() {
+        AuthData authData = AddAuth_tableview.getSelectionModel().getSelectedItem();
+        if (authData == null) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an author to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        String sql = "DELETE FROM auteur WHERE id_auteur = ?";
+
+        connect = database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setInt(1, authData.getId());
+            prepare.executeUpdate();
+
+            // Display success message
+            Alert successAlert = new Alert(AlertType.INFORMATION);
+            successAlert.setTitle("Success");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("Author deleted successfully.");
+            successAlert.showAndWait();
+
+            addAuthShowListData();
+        } catch (SQLException e) {
+            Alert errorAlert = new Alert(AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("Failed to delete author. Please try again.");
+            errorAlert.showAndWait();
+            e.printStackTrace(); // Print stack trace for debugging purposes
+        } finally {
+            try {
+                // Close resources
+                if (prepare != null) {
+                    prepare.close();
+                }
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void clearAuthFields() {
+        AddAuth_ID.clear();
+        AddAuth_Fname.clear();
+        AddAuth_Lname.clear();
+        AddAuth_Nationality.clear();
+    }
+
+    public void TotalAuth() {
+
+        String sql = "SELECT COUNT(id_auteur) FROM auteur";
+
+        connect = database.connectDb();
+        int countData = 0;
+        try {
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                countData = result.getInt("COUNT(id_auteur)");
+            }
+
+            total_auth_number.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void TotalAuthBooks() {
+        String sql = "SELECT SUM(`nb-copie`) AS total_copies FROM livre";
+
+        connect = database.connectDb();
+        int totalCopies = 0;
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                totalCopies = result.getInt("total_copies");
+            }
+
+            // Afficher le nombre total de copies de livres
+            total_auth_books_number.setText(String.valueOf(totalCopies));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //-------------STATS-----------------------
+    public void TotalClientschart() {
+
+        nb_clients_chart.getData().clear();
+
+        String sql = "SELECT COUNT(id_abonné) FROM abonné";
+
+        connect = database.connectDb();
+
+        try {
+            XYChart.Series chart = new XYChart.Series();
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
+            }
+
+            nb_clients_chart.getData().add(chart);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     //---------------MAIN----------------------
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addAbonneShowListData();
         showBookListData();
         showReservationListData();
+        addAuthShowListData();
         //Charge the combolist items 
         addBookGenreList();
 
@@ -1612,6 +2011,11 @@ public class dashboardController implements Initializable {
         TotalClients();
         TotalActifClients();
         TotalLateReturns();
+
+        TotalAuth();
+        TotalAuthBooks();
+        //Charts 
+        TotalClientschart();
 
     }
 
