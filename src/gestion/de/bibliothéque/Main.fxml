@@ -108,7 +108,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="rightsidepane" layoutX="222.0" layoutY="30.0" prefHeight="590.0" prefWidth="698.0" styleClass="search" stylesheets="@style.css">
+      <AnchorPane fx:id="rightsidepane" layoutX="222.0" layoutY="30.0" prefHeight="590.0" prefWidth="698.0" styleClass="search" stylesheets="@style.css" visible="false">
          <children>
             <Pane fx:id="hpane" layoutX="11.0" layoutY="6.0" prefHeight="54.0" prefWidth="680.0" styleClass="hpane" stylesheets="@style.css">
                <children>
@@ -663,9 +663,9 @@
             </Button>
          </children>
       </Pane>
-      <AnchorPane layoutX="231.0" layoutY="35.0" prefHeight="578.0" prefWidth="680.0" style="-fx-background-color: white;" styleClass="anchor1" visible="false">
+      <AnchorPane layoutX="231.0" layoutY="35.0" prefHeight="578.0" prefWidth="680.0" style="-fx-background-color: white;" styleClass="anchor1">
          <children>
-            <ImageView fitHeight="158.0" fitWidth="178.0" layoutX="38.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="158.0" fitWidth="178.0" layoutX="47.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
                <image>
                   <Image url="@../../../../../../../Desktop/mee.jpg" />
                </image>
@@ -690,7 +690,7 @@
                   <Font size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="modifie_data_btn" layoutX="40.0" layoutY="382.0" prefHeight="44.0" prefWidth="198.0" style="-fx-background-color: (0, 0, 0, 5);" styleClass="profilebutton" stylesheets="@style.css" text="Modifier données" textFill="#b7b7b7">
+            <JFXButton fx:id="modifie_data_btn" layoutX="40.0" layoutY="382.0" prefHeight="44.0" prefWidth="198.0" styleClass="profilebutton" stylesheets="@style.css" text="Modifier données" textFill="#b7b7b7">
                <font>
                   <Font size="15.0" />
                </font>
@@ -718,6 +718,135 @@
             <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="50.0" layoutY="488.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Ressources/logout.png" />
+               </image>
+            </ImageView>
+            <Pane layoutX="286.0" layoutY="468.0" prefHeight="85.0" prefWidth="366.0" style="-fx-background-color: white;" styleClass="anchor1">
+               <children>
+                  <ImageView fitHeight="44.0" fitWidth="45.0" layoutX="31.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../Desktop/logo%20fa.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#7e7e7e" layoutX="35.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rami">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="44.0" fitWidth="45.0" layoutX="124.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../Desktop/logo%20fa.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#7e7e7e" layoutX="128.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rami">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="44.0" fitWidth="45.0" layoutX="209.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../Desktop/logo%20fa.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#7e7e7e" layoutX="213.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rami">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="44.0" fitWidth="45.0" layoutX="307.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../Desktop/logo%20fa.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#7e7e7e" layoutX="311.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rami">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Text fill="#b1b1b1" layoutX="282.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tes Collégues">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Text>
+            <Pane layoutX="282.0" layoutY="44.0" prefHeight="357.0" prefWidth="366.0" style="-fx-background-color: white;" styleClass="anchor1">
+               <children>
+                  <Text fill="#a4a4a4" layoutX="31.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salut">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#a4a4a4" layoutX="118.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rami.">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#b1b1b1" layoutX="20.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom :">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#5b5b5b" layoutX="31.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mohamed Rami">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#b1b1b1" layoutX="17.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom :">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#5b5b5b" layoutX="36.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zairi">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#b1b1b1" layoutX="17.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#5b5b5b" layoutX="36.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="406 Rue Nigéria riadh 4 sousse">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#b1b1b1" layoutX="17.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#5b5b5b" layoutX="36.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ramizeyri@gmail.com">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#b1b1b1" layoutX="20.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numéro">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#5b5b5b" layoutX="39.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+216 46395570">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#b1b1b1" layoutX="335.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="330.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="246">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <JFXButton layoutX="546.0" layoutY="8.0" prefHeight="26.0" prefWidth="101.0" styleClass="gobackbutton" stylesheets="@style.css" text="Retour" />
+            <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="623.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Ressources/back.png" />
                </image>
             </ImageView>
          </children>

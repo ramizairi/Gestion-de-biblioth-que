@@ -116,3 +116,8 @@
     -fx-background-radius: 20px;
     -fx-text-alignment: left;
 }
+.gobackbutton:hover {   
+    -fx-background-color: #6c5ce7;
+    -fx-text-fill: white;
+    -fx-text-alignment: left;
+}

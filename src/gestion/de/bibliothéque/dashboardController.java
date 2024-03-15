@@ -1,4 +1,5 @@
 package gestion.de.bibliothéque;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.jfoenix.controls.JFXButton;
@@ -538,7 +539,7 @@ public class dashboardController implements Initializable {
     public ObservableList<AbonneData> addAbonneListData() {
         ObservableList<AbonneData> listData = FXCollections.observableArrayList();
 
-        String sql = "SELECT * FROM abonné";
+        String sql = "SELECT * FROM abonne";
 
         // Establish connection
         connect = database.connectDb();
@@ -607,7 +608,7 @@ public class dashboardController implements Initializable {
             return;
         }
 
-        String sql = "INSERT INTO abonné (nom, prenom, adresse, numero, adresse_mail, mot_de_passe) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO abonne (nom, prenom, adresse, numero, adresse_mail, mot_de_passe) VALUES (?, ?, ?, ?, ?, ?)";
 
         connect = database.connectDb();
 
@@ -684,12 +685,10 @@ public class dashboardController implements Initializable {
         String nom = AddClient_Fname.getText();
         String prenom = AddClient_Lname.getText();
         String adresse = AddClient_Ady.getText();
-        String numero = AddClient_Num.getText();
+        String numero = AddClient_Num.getText();  
         String adresseMail = AddClient_Mail.getText();
-        String motDePasse = AddClient_Password.getText();
-
         // Ensure all fields are filled
-        if (nom.isEmpty() || prenom.isEmpty() || adresse.isEmpty() || numero.isEmpty() || adresseMail.isEmpty() || motDePasse.isEmpty()) {
+        if (nom.isEmpty() || prenom.isEmpty() || adresse.isEmpty() || numero.isEmpty() || adresseMail.isEmpty()) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -699,7 +698,7 @@ public class dashboardController implements Initializable {
         }
 
         // Prepare SQL update statement
-        String sql = "UPDATE abonné SET nom=?, prenom=?, adresse=?, numero=?, adresse_mail=?, mot_de_passe=? WHERE id_abonné=?";
+        String sql = "UPDATE abonne SET nom=?, prenom=?, adresse=?, numero=?, adresse_mail=? WHERE id_abonné=?";
 
         // Establish database connection
         connect = database.connectDb();
@@ -711,8 +710,7 @@ public class dashboardController implements Initializable {
             prepare.setString(3, adresse);
             prepare.setString(4, numero);
             prepare.setString(5, adresseMail);
-            prepare.setString(6, motDePasse);
-            prepare.setInt(7, selectedAbonne.getIdAbonne()); // Set id of selected user
+            prepare.setInt(6, selectedAbonne.getIdAbonne()); // Set id of selected user
             prepare.executeUpdate();
 
             // Display success message
@@ -763,7 +761,7 @@ public class dashboardController implements Initializable {
         }
 
         // Prepare SQL delete statement
-        String sql = "DELETE FROM abonné WHERE id_abonné=?";
+        String sql = "DELETE FROM abonne WHERE id_abonné=?";
 
         // Establish database connection
         connect = database.connectDb();
@@ -821,7 +819,7 @@ public class dashboardController implements Initializable {
 
     public void TotalClients() {
 
-        String sql = "SELECT COUNT(id_abonné) FROM abonné";
+        String sql = "SELECT COUNT(id_abonné) FROM abonne";
 
         connect = database.connectDb();
         int countData = 0;
@@ -1969,13 +1967,23 @@ public class dashboardController implements Initializable {
             e.printStackTrace();
         }
     }
+    //-------------Profile---------------------
+    //-->Personal information
+    
 
+    
+    
+    
+    
+    
+    
+    
     //-------------STATS-----------------------
     public void TotalClientschart() {
 
         nb_clients_chart.getData().clear();
 
-        String sql = "SELECT COUNT(id_abonné) FROM abonné";
+        String sql = "SELECT COUNT(id_abonné) FROM abonne";
 
         connect = database.connectDb();
 
