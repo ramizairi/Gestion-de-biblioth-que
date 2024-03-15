@@ -1,4 +1,5 @@
 package gestion.de.bibliothéque;
+import org.mindrot.jbcrypt.BCrypt;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -51,6 +52,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
+import javafx.scene.control.Alert;
 
 public class dashboardController implements Initializable {
 
@@ -610,13 +612,19 @@ public class dashboardController implements Initializable {
         connect = database.connectDb();
 
         try {
+            // Generate salt
+            String salt = BCrypt.gensalt();
+
+            // Hash password
+            String hashedPassword = BCrypt.hashpw(AddClient_Password.getText(), salt);
+
             prepare = connect.prepareStatement(sql);
             prepare.setString(1, AddClient_Fname.getText());
             prepare.setString(2, AddClient_Lname.getText());
             prepare.setString(3, AddClient_Ady.getText());
             prepare.setString(4, AddClient_Num.getText());
             prepare.setString(5, AddClient_Mail.getText());
-            prepare.setString(6, AddClient_Password.getText());
+            prepare.setString(6, hashedPassword);
             prepare.executeUpdate();
 
             // Display success message

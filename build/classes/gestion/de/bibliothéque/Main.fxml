@@ -188,7 +188,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="total_emprunted_books" fill="WHITE" layoutX="136.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="17.7890625">
+                              <Text fx:id="total_emprunted_books" fill="WHITE" layoutX="90.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="77.53125">
                                  <font>
                                     <Font size="33.0" />
                                  </font>
@@ -374,7 +374,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="gerer_reservation_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
+            <AnchorPane fx:id="gerer_reservation_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
                <children>
                   <AnchorPane prefHeight="150.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
                      <children>
@@ -663,5 +663,64 @@
             </Button>
          </children>
       </Pane>
+      <AnchorPane layoutX="231.0" layoutY="35.0" prefHeight="578.0" prefWidth="680.0" style="-fx-background-color: white;" styleClass="anchor1" visible="false">
+         <children>
+            <ImageView fitHeight="158.0" fitWidth="178.0" layoutX="38.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/mee.jpg" />
+               </image>
+            </ImageView>
+            <Text layoutX="38.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mohamed rami zairi" wrappingWidth="205.4800262451172">
+               <font>
+                  <Font name="Almaz_Demo Regular" size="30.0" />
+               </font>
+            </Text>
+            <Text fill="#666666" layoutX="38.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manager" wrappingWidth="78.39999999999986">
+               <font>
+                  <Font name="Bell MT" size="18.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="50.0" layoutY="343.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Ressources/user.png" />
+               </image>
+            </ImageView>
+            <JFXButton fx:id="personal_information_btn" layoutX="38.0" layoutY="330.0" prefHeight="44.0" prefWidth="205.0" styleClass="profilebutton" stylesheets="@style.css" text="Personal information">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="modifie_data_btn" layoutX="40.0" layoutY="382.0" prefHeight="44.0" prefWidth="198.0" style="-fx-background-color: (0, 0, 0, 5);" styleClass="profilebutton" stylesheets="@style.css" text="Modifier données" textFill="#b7b7b7">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="history_btn" layoutX="40.0" layoutY="432.0" prefHeight="44.0" prefWidth="198.0" styleClass="profilebutton" stylesheets="@style.css" text="Historique" textFill="#b7b7b7">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="logout_manager_btn" layoutX="38.0" layoutY="476.0" prefHeight="44.0" prefWidth="205.0" styleClass="profilebutton" stylesheets="@style.css" text="Se déconnecter" textFill="#b7b7b7">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
+            <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="50.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Ressources/auth.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="50.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Ressources/history.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="50.0" layoutY="488.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Ressources/logout.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

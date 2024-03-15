@@ -104,6 +104,15 @@
     -fx-background-color: green;
 }
 .addbookimage{
-    -fx-background-color: #b2bec3;
+    -fx-background-color: #b5b5b5;
     -fx-background-radius: 10px;
+}
+.profilebutton {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px;
+}
+.profilebutton:hover {
+    -fx-background-color: #6c5ce7;
+    -fx-background-radius: 20px;
+    -fx-text-alignment: left;
 }
