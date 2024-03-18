@@ -58,6 +58,69 @@ import javafx.scene.control.Alert;
 public class dashboardController implements Initializable {
 
     @FXML
+    private JFXButton personal_information_btn;
+
+    @FXML
+    private Pane ModifieInformations_panel;
+
+    @FXML
+    private Pane PersonalInformation_panel;
+
+    @FXML
+    private JFXButton modifie_data_btn;
+
+    @FXML
+    private JFXButton history_btn;
+
+    @FXML
+    private JFXButton logout_manager_btn;
+
+    @FXML
+    private JFXButton confirm_update_btn;
+
+    @FXML
+    private AnchorPane profile_form;
+
+    @FXML
+    private TextField change_profile_ady;
+
+    @FXML
+    private TextField change_profile_email;
+
+    @FXML
+    private TextField change_profile_fname;
+
+    @FXML
+    private TextField change_profile_lname;
+
+    @FXML
+    private Text profile_fullname_txt;
+
+    @FXML
+    private TextField change_profile_number;
+
+    @FXML
+    private Text profile_ady_txt;
+
+    @FXML
+    private Text profile_email_txt;
+
+    @FXML
+    private Text profile_fnameTitle_txt;
+
+    @FXML
+    private Text profile_fname_txt;
+
+    @FXML
+    private Text profile_id_txt;
+
+    @FXML
+    private Text profile_lname_txt;
+
+    @FXML
+    private Text profile_number_txt;
+
+    @FXML
     private TextField AddAuth_Fname;
 
     @FXML
@@ -449,10 +512,13 @@ public class dashboardController implements Initializable {
     public void exit() {
         System.exit(0);
     }
-
-    public void display_username() {
-        username.setText(getData.username);
-        //Dans le login = getData.username = username.getText();
+    private String fullname;
+    public void display_data() {
+        username.setText(getData.fname);
+        change_profile_fname.setText(getData.fname);
+        change_profile_lname.setText(getData.lname);
+        fullname = getData.fname+ " " + getData.lname;
+        profile_fullname_txt.setText(fullname);
     }
 
     public void minimize() {
@@ -467,11 +533,13 @@ public class dashboardController implements Initializable {
             gerer_clients_form.setVisible(false);
             gerer_auth_form.setVisible(false);
             stats_form.setVisible(false);
+            profile_form.setVisible(false);
             gerer_livre_btn.setStyle("-fx-background-color: red;");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             gerer_auth_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: transparent");
+            user_profile_btn.setStyle("-fx-background-color: transparent");
 
             TotalBooks();
             TotalAvailableBooks();
@@ -483,11 +551,13 @@ public class dashboardController implements Initializable {
             gerer_clients_form.setVisible(false);
             gerer_auth_form.setVisible(false);
             stats_form.setVisible(false);
+            profile_form.setVisible(false);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: red");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             gerer_auth_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: transparent");
+            user_profile_btn.setStyle("-fx-background-color: transparent");
 
             TotalReservation();
             TotalActifReservations();
@@ -498,11 +568,13 @@ public class dashboardController implements Initializable {
             gerer_clients_form.setVisible(true);
             gerer_auth_form.setVisible(false);
             stats_form.setVisible(false);
+            profile_form.setVisible(false);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: red;");
             gerer_auth_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: transparent");
+            user_profile_btn.setStyle("-fx-background-color: transparent");
 
             TotalClients();
             TotalActifClients();
@@ -513,25 +585,41 @@ public class dashboardController implements Initializable {
             gerer_clients_form.setVisible(false);
             gerer_auth_form.setVisible(false);
             stats_form.setVisible(true);
+            profile_form.setVisible(false);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             gerer_auth_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: red;");
+            user_profile_btn.setStyle("-fx-background-color: transparent");
         } else if (event.getSource() == gerer_auth_btn) {
             gerer_livre_form.setVisible(false);
             gerer_reservation_form.setVisible(false);
             gerer_clients_form.setVisible(false);
             gerer_auth_form.setVisible(true);
             stats_form.setVisible(false);
+            profile_form.setVisible(false);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             gerer_auth_btn.setStyle("-fx-background-color: red");
             stats_btn.setStyle("-fx-background-color: transparent;");
-
+            user_profile_btn.setStyle("-fx-background-color: transparent");
             TotalAuth();
             TotalAuthBooks();
+        } else if (event.getSource() == user_profile_btn) {
+            gerer_livre_form.setVisible(false);
+            gerer_reservation_form.setVisible(false);
+            gerer_clients_form.setVisible(false);
+            gerer_auth_form.setVisible(false);
+            stats_form.setVisible(false);
+            profile_form.setVisible(true);
+            gerer_livre_btn.setStyle("-fx-background-color: transparent");
+            voir_reservation_btn.setStyle("-fx-background-color: transparent");
+            gerer_client_btn.setStyle("-fx-background-color: transparent");
+            gerer_auth_btn.setStyle("-fx-background-color: transparent");
+            stats_btn.setStyle("-fx-background-color: transparent;");
+            user_profile_btn.setStyle("-fx-background-color: red;");
         }
     }
 
@@ -685,7 +773,7 @@ public class dashboardController implements Initializable {
         String nom = AddClient_Fname.getText();
         String prenom = AddClient_Lname.getText();
         String adresse = AddClient_Ady.getText();
-        String numero = AddClient_Num.getText();  
+        String numero = AddClient_Num.getText();
         String adresseMail = AddClient_Mail.getText();
         // Ensure all fields are filled
         if (nom.isEmpty() || prenom.isEmpty() || adresse.isEmpty() || numero.isEmpty() || adresseMail.isEmpty()) {
@@ -1967,18 +2055,116 @@ public class dashboardController implements Initializable {
             e.printStackTrace();
         }
     }
+
     //-------------Profile---------------------
     //-->Personal information
-    
+    public void GetProfileInformations() {
+        /*
+        Login_service service = new Login_service();
+        int loggedId = service.getLoggedId(); */
+        int loggedId = getData.id;
+        String sql = "SELECT * FROM manager WHERE id_manager = " + loggedId;
+        try (Connection connect = database.connectDb(); PreparedStatement prepare = connect.prepareStatement(sql)) {
 
-    
-    
-    
-    
-    
-    
-    
+            // Execute the query
+            try (ResultSet result = prepare.executeQuery()) {
+                while (result.next()) {
+                    String fname = result.getString("nom");
+                    String lname = result.getString("prenom");
+                    String ady = result.getString("adresse");
+                    int num = result.getInt("numero");
+                    String email = result.getString("adresse_mail");
+
+                    profile_id_txt.setText(Integer.toString(loggedId));
+                    profile_fnameTitle_txt.setText(lname);
+                    profile_fname_txt.setText(fname);
+                    profile_lname_txt.setText(lname);
+                    profile_ady_txt.setText(ady);
+                    profile_number_txt.setText(Integer.toString(num));
+                    profile_email_txt.setText(email);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateProfileInformation() {
+        // Get the updated profile information from text fields
+        change_profile_fname.setText(getData.fname);
+        change_profile_lname.setText(getData.lname);
+        String newEmail = change_profile_email.getText();
+        String newAddress = change_profile_ady.getText();
+        String newNumberStr = change_profile_number.getText();
+
+        // Validate and convert the new number to integer
+        int newNumber = 0;
+        try {
+            newNumber = Integer.parseInt(newNumberStr);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format. Please enter a valid number.");
+            return;
+        }
+
+        int loggedId = getData.id;
+
+        String sql = "UPDATE manager SET nom = ?, prenom = ?, adresse_mail = ?, adresse = ?, numero = ? WHERE id_manager = ?";
+
+        try (Connection connect = database.connectDb(); PreparedStatement prepare = connect.prepareStatement(sql)) {
+            prepare.setString(3, newEmail);
+            prepare.setString(4, newAddress);
+            prepare.setInt(5, newNumber);
+            prepare.setInt(6, loggedId);
+
+            // Execute the update query
+            int rowsAffected = prepare.executeUpdate();
+
+            if (rowsAffected > 0) {
+                Alert successAlert = new Alert(AlertType.INFORMATION);
+                successAlert.setTitle("Success");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("Profile information updated successfully.");
+                successAlert.showAndWait();
+            } else {
+                Alert successAlert = new Alert(AlertType.INFORMATION);
+                successAlert.setTitle("Error");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("Failed to update profile information.");
+                successAlert.showAndWait();
+            }
+        } catch (SQLException e) {
+            // Handle SQL exceptions
+            e.printStackTrace();
+        }
+    }
+
+    public void switchProfileForm(ActionEvent event) {
+        if (event.getSource() == personal_information_btn) {
+            PersonalInformation_panel.setVisible(true);
+            ModifieInformations_panel.setVisible(false);
+            //LogsHistory_panel.setVisible(false);
+            personal_information_btn.setStyle("-fx-text-fill: black;");
+            modifie_data_btn.setStyle("-fx-text-fill: #b7b7b7;");
+            history_btn.setStyle("-fx-text-fill: #b7b7b7;");
+
+        } else if (event.getSource() == modifie_data_btn) {
+            PersonalInformation_panel.setVisible(false);
+            ModifieInformations_panel.setVisible(true);
+            //LogsHistory_panel.setVisible(false);
+            personal_information_btn.setStyle("-fx-text-fill: #b7b7b7;");
+            modifie_data_btn.setStyle("-fx-text-fill: black;");
+            history_btn.setStyle("-fx-text-fill: #b7b7b7;");
+        } else if (event.getSource() == history_btn) {
+            PersonalInformation_panel.setVisible(true);
+            gerer_reservation_form.setVisible(false);
+            //LogsHistory_panel.setVisible(false);
+            personal_information_btn.setStyle("-fx-text-fill: #b7b7b7;");
+            modifie_data_btn.setStyle("-fx-text-fill: #b7b7b7;");
+            history_btn.setStyle("-fx-text-fill: black;");
+        }
+    }
     //-------------STATS-----------------------
+
     public void TotalClientschart() {
 
         nb_clients_chart.getData().clear();
@@ -2032,6 +2218,10 @@ public class dashboardController implements Initializable {
         TotalAuthBooks();
         //Charts 
         TotalClientschart();
+
+        //Profile
+        GetProfileInformations();
+        display_data();
 
     }
 

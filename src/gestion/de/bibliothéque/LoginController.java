@@ -36,7 +36,7 @@ public class LoginController implements Initializable {
     private Button Quit_btn;
     @FXML
     private PasswordField password;
-
+   
     Login_service service = new Login_service();
 
     @Override
@@ -65,12 +65,6 @@ public class LoginController implements Initializable {
                 break;
             }
             case 2: {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Welcome");
-                alert.setHeaderText("Success");
-                alert.setContentText("Welcome " + username.getText() + " to our library");
-                alert.showAndWait();
-
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                     Parent root = loader.load();
@@ -78,8 +72,8 @@ public class LoginController implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.show();
 
-                    // Hide the login window
                     ((Node) (event.getSource())).getScene().getWindow().hide();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
