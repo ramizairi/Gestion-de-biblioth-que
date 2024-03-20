@@ -64,7 +64,6 @@ public class Login_service implements Login_Interface {
         return ok;
     }
 
-    // Getter method for loggedId
     public int getLoggedId() {
         return loggedId;
     }
