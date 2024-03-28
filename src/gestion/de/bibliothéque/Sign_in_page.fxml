@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
@@ -56,5 +58,15 @@
             <Font name="Arial" size="18.0" />
          </font>
       </PasswordField>
+      <ImageView fitHeight="24.0" fitWidth="26.0" layoutX="330.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Ressources/login_user.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="24.0" fitWidth="26.0" layoutX="330.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Ressources/password.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

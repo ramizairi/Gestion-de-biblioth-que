@@ -108,7 +108,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="rightsidepane" layoutX="222.0" layoutY="30.0" prefHeight="590.0" prefWidth="698.0" styleClass="search" stylesheets="@style.css">
+      <AnchorPane fx:id="rightsidepane" layoutX="222.0" layoutY="30.0" prefHeight="590.0" prefWidth="698.0" styleClass="search" stylesheets="@style.css" visible="false">
          <children>
             <Pane fx:id="hpane" layoutX="11.0" layoutY="6.0" prefHeight="54.0" prefWidth="680.0" styleClass="hpane" stylesheets="@style.css">
                <children>
@@ -600,7 +600,7 @@
             </AnchorPane>
             <AnchorPane fx:id="stats_form" layoutX="12.0" layoutY="68.0" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css" visible="false">
                <children>
-                  <BarChart fx:id="CA_chart" layoutX="344.0" layoutY="41.0" prefHeight="187.0" prefWidth="322.0">
+                  <BarChart fx:id="livres_par_auteur_bar" layoutX="344.0" layoutY="41.0" prefHeight="187.0" prefWidth="322.0">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -608,12 +608,12 @@
                       <NumberAxis side="LEFT" />
                     </yAxis>
                   </BarChart>
-                  <Text fill="#818080" layoutX="351.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chiffre d'affaire">
+                  <Text fill="#818080" layoutX="351.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livres par auteur">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <LineChart fx:id="nb_clients_chart" layoutX="5.0" layoutY="41.0" prefHeight="187.0" prefWidth="334.0">
+                  <LineChart fx:id="reservation_per_genre_linechart" layoutX="5.0" layoutY="41.0" prefHeight="187.0" prefWidth="334.0" AnchorPane.bottomAnchor="286.4" AnchorPane.leftAnchor="4.800000000000011" AnchorPane.rightAnchor="340.6" AnchorPane.topAnchor="41.0">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -621,23 +621,30 @@
                       <NumberAxis side="LEFT" />
                     </yAxis>
                   </LineChart>
-                  <Text fill="#818080" layoutX="17.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre des clients">
+                  <Text fill="#818080" layoutX="17.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Réservation par genre">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <PieChart fx:id="etat_books_cercle" layoutX="48.0" layoutY="274.0" prefHeight="206.0" prefWidth="278.0" style="-fx-background-color: red;" />
-                  <Text fill="#818080" layoutX="17.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="État des livres">
+                  <PieChart fx:id="book_per_genre_piechart" layoutX="48.0" layoutY="274.0" prefHeight="206.0" prefWidth="278.0" />
+                  <Text fill="#818080" layoutX="17.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livres par genre">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <PieChart fx:id="reservations_statuts" layoutX="374.0" layoutY="274.0" prefHeight="206.0" prefWidth="278.0" style="-fx-background-color: red;" />
-                  <Text fill="#818080" layoutX="343.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Les réservations">
+                  <Text fill="#818080" layoutX="343.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Propositions de livre par abonnés">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
+                  <BarChart fx:id="prop_per_book_bar" layoutX="344.0" layoutY="283.0" prefHeight="206.0" prefWidth="322.0">
+                     <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis side="LEFT" />
+                     </yAxis>
+                  </BarChart>
                </children>
             </AnchorPane>
          </children></AnchorPane>
@@ -669,7 +676,7 @@
             </Button>
          </children>
       </Pane>
-      <AnchorPane fx:id="profile_form" layoutX="230.0" layoutY="36.0" prefHeight="578.0" prefWidth="687.0" style="-fx-background-color: white;" styleClass="anchor1" visible="false">
+      <AnchorPane fx:id="profile_form" layoutX="230.0" layoutY="36.0" prefHeight="578.0" prefWidth="687.0" style="-fx-background-color: white;" styleClass="anchor1">
          <children>
             <ImageView fx:id="profile_image" fitHeight="158.0" fitWidth="178.0" layoutX="50.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
                <image>
@@ -775,7 +782,7 @@
                   <Font size="28.0" />
                </font>
             </Text>
-            <Pane fx:id="PersonalInformation_panel" disable="true" layoutX="282.0" layoutY="44.0" prefHeight="357.0" prefWidth="366.0" style="-fx-background-color: white;" styleClass="anchor1" visible="false">
+            <Pane fx:id="PersonalInformation_panel" disable="true" layoutX="282.0" layoutY="44.0" prefHeight="357.0" prefWidth="366.0" style="-fx-background-color: white;" styleClass="anchor1">
                <children>
                   <Text fill="#a4a4a4" layoutX="31.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salut">
                      <font>
@@ -855,7 +862,7 @@
                   <Image url="@Ressources/back.png" />
                </image>
             </ImageView>
-            <Pane fx:id="ModifieInformations_panel" layoutX="282.0" layoutY="44.0" prefHeight="357.0" prefWidth="366.0" style="-fx-background-color: white;" styleClass="anchor1">
+            <Pane fx:id="ModifieInformations_panel" layoutX="282.0" layoutY="44.0" prefHeight="357.0" prefWidth="366.0" style="-fx-background-color: white;" styleClass="anchor1" visible="false">
                <children>
                   <Text fill="#a4a4a4" layoutX="14.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier vos données">
                      <font>
@@ -898,6 +905,17 @@
                         <Image url="@Ressources/confirm_update.png" />
                      </image>
                   </ImageView>
+               </children>
+            </Pane>
+            <Pane fx:id="ProfileHistory_Panel" disable="true" layoutX="283.0" layoutY="44.0" prefHeight="357.0" prefWidth="366.0" style="-fx-background-color: white;" styleClass="anchor1">
+               <children>
+                  <TableView fx:id="History_tableview" layoutX="2.0" onMouseClicked="#AddAuthSelect" prefHeight="358.0" prefWidth="366.0" style="-fx-background-radius: 50px;" stylesheets="@style.css">
+                     <columns>
+                        <TableColumn fx:id="History_Col_Type" prefWidth="81.5999755859375" text="Type" />
+                        <TableColumn fx:id="History_Col_Desc" prefWidth="184.79998779296875" text="Déscription " />
+                        <TableColumn fx:id="History_Col_Date" minWidth="0.0" prefWidth="100.0" text="Date" />
+                     </columns>
+                  </TableView>
                </children>
             </Pane>
          </children>

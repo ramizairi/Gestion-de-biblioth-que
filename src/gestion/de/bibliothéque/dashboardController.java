@@ -35,6 +35,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -47,15 +48,27 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Alert;
+import static javafx.collections.FXCollections.observableArrayList;
 
 public class dashboardController implements Initializable {
+
+    @FXML
+    private TableColumn<HistoryData, String> History_Col_Date;
+
+    @FXML
+    private TableColumn<HistoryData, String> History_Col_Desc;
+
+    @FXML
+    private TableColumn<HistoryData, String> History_Col_Type;
 
     @FXML
     private JFXButton personal_information_btn;
@@ -154,6 +167,9 @@ public class dashboardController implements Initializable {
     private TableView<AuthData> AddAuth_tableview;
 
     @FXML
+    private TableView<HistoryData> History_tableview;
+
+    @FXML
     private TableColumn<AuthData, String> AddAuteur_Col_FName;
 
     @FXML
@@ -166,16 +182,19 @@ public class dashboardController implements Initializable {
     private TableColumn<AuthData, String> AddAuteur_Col_Nationality;
 
     @FXML
-    private LineChart<?, ?> nb_clients_chart;
+    private LineChart<?, ?> reservation_per_genre_linechart;
 
     @FXML
-    private BarChart<?, ?> CA_chart;
+    private BarChart<?, ?> livres_par_auteur_bar;
+
+    @FXML
+    private BarChart<?, ?> prop_per_book_bar;
 
     @FXML
     private PieChart reservations_statuts;
 
     @FXML
-    private PieChart etat_books_cercle;
+    private PieChart book_per_genre_piechart;
 
     @FXML
     private TextField AddBook_Auth;
@@ -479,6 +498,9 @@ public class dashboardController implements Initializable {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.isPresent() && option.get() == ButtonType.OK) {
+            String operation_type = "Déconnection";
+            String operation_desc = "Le manageur : " + getData.fname + " " + getData.lname + " est déconnecter";
+            logHistory(operation_type, operation_desc);
             try {
                 // Load the FXML file
                 Parent root = FXMLLoader.load(getClass().getResource("Sign_in_page.fxml"));
@@ -512,12 +534,14 @@ public class dashboardController implements Initializable {
     public void exit() {
         System.exit(0);
     }
+
     private String fullname;
+
     public void display_data() {
         username.setText(getData.fname);
         change_profile_fname.setText(getData.fname);
         change_profile_lname.setText(getData.lname);
-        fullname = getData.fname+ " " + getData.lname;
+        fullname = getData.fname + " " + getData.lname;
         profile_fullname_txt.setText(fullname);
     }
 
@@ -638,7 +662,7 @@ public class dashboardController implements Initializable {
             AbonneData AbonneD;
             while (result.next()) {
                 AbonneD = new AbonneData(
-                        result.getInt("id_abonné"),
+                        result.getInt("id_abonne"),
                         result.getString("nom"),
                         result.getString("prenom"),
                         result.getString("adresse"),
@@ -716,6 +740,9 @@ public class dashboardController implements Initializable {
             prepare.setString(6, hashedPassword);
             prepare.executeUpdate();
 
+            String operation_type = "Ajouter Client";
+            String operation_desc = "Ajouter client :" + AddClient_Fname.getText() + AddClient_Lname.getText();
+            logHistory(operation_type, operation_desc);
             // Display success message
             Alert successAlert = new Alert(AlertType.INFORMATION);
             successAlert.setTitle("Success");
@@ -786,7 +813,7 @@ public class dashboardController implements Initializable {
         }
 
         // Prepare SQL update statement
-        String sql = "UPDATE abonne SET nom=?, prenom=?, adresse=?, numero=?, adresse_mail=? WHERE id_abonné=?";
+        String sql = "UPDATE abonne SET nom=?, prenom=?, adresse=?, numero=?, adresse_mail=? WHERE id_abonne=?";
 
         // Establish database connection
         connect = database.connectDb();
@@ -801,6 +828,9 @@ public class dashboardController implements Initializable {
             prepare.setInt(6, selectedAbonne.getIdAbonne()); // Set id of selected user
             prepare.executeUpdate();
 
+            String operation_type = "Modifier Client";
+            String operation_desc = "Modifier Client : " + AddClient_Fname.getText() + AddClient_Lname.getText();
+            logHistory(operation_type, operation_desc);
             // Display success message
             Alert successAlert = new Alert(AlertType.INFORMATION);
             successAlert.setTitle("Success");
@@ -849,7 +879,7 @@ public class dashboardController implements Initializable {
         }
 
         // Prepare SQL delete statement
-        String sql = "DELETE FROM abonne WHERE id_abonné=?";
+        String sql = "DELETE FROM abonne WHERE id_abonne=?";
 
         // Establish database connection
         connect = database.connectDb();
@@ -859,6 +889,9 @@ public class dashboardController implements Initializable {
             prepare.setInt(1, selectedAbonne.getIdAbonne()); // Set id of selected user
             prepare.executeUpdate();
 
+            String operation_type = "Supprimer Client";
+            String operation_desc = "Supprimer Client avec ID : " + selectedAbonne.getIdAbonne();
+            logHistory(operation_type, operation_desc);
             // Display success message
             Alert successAlert = new Alert(AlertType.INFORMATION);
             successAlert.setTitle("Success");
@@ -907,7 +940,7 @@ public class dashboardController implements Initializable {
 
     public void TotalClients() {
 
-        String sql = "SELECT COUNT(id_abonné) FROM abonne";
+        String sql = "SELECT COUNT(id_abonne) FROM abonne";
 
         connect = database.connectDb();
         int countData = 0;
@@ -917,7 +950,7 @@ public class dashboardController implements Initializable {
             result = prepare.executeQuery();
 
             while (result.next()) {
-                countData = result.getInt("COUNT(id_abonné)");
+                countData = result.getInt("COUNT(id_abonne)");
             }
 
             total_client_number.setText(String.valueOf(countData));
@@ -1117,6 +1150,10 @@ public class dashboardController implements Initializable {
                     prepare.setString(7, AddBook_Price.getText());
                     prepare.executeUpdate();
 
+                    String operation_type = "Ajouter Livre";
+                    String operation_desc = "Ajouter Livre : " + AddBook_Titre.getText() + " de l'auteur " + AddBook_Auth.getText();
+                    logHistory(operation_type, operation_desc);
+
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
@@ -1183,6 +1220,10 @@ public class dashboardController implements Initializable {
             prepare.setInt(6, selectedBook.getIdLivre());
             prepare.executeUpdate();
 
+            String operation_type = "Modifier Livre";
+            String operation_desc = "Modifier Livre : " + AddBook_Titre.getText() + " de l'auteur " + AddBook_Auth.getText();
+            logHistory(operation_type, operation_desc);
+
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setTitle("Success");
             successAlert.setHeaderText(null);
@@ -1231,6 +1272,10 @@ public class dashboardController implements Initializable {
             prepare = connect.prepareStatement(sql);
             prepare.setInt(1, selectedBook.getIdLivre());
             prepare.executeUpdate();
+
+            String operation_type = "Supprimer Livre";
+            String operation_desc = "Supprimer Livre avec l'id : " + selectedBook.getIdLivre();
+            logHistory(operation_type, operation_desc);
 
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setTitle("Success");
@@ -1392,7 +1437,7 @@ public class dashboardController implements Initializable {
                 ReservationD = new ReservationData(
                         result.getInt("id_res"),
                         result.getInt("id_livre"),
-                        result.getInt("id_abonné"),
+                        result.getInt("id_abonne"),
                         result.getDate("date_res"),
                         result.getDate("date_retour_prevue"),
                         result.getDate("date_retour_reel"),
@@ -1439,7 +1484,7 @@ public class dashboardController implements Initializable {
 
     public void addReservationAdd() {
         String code = generateRandomMAJ();
-        // Retrieve the number of days from the text field
+
         int nbJours;
         try {
             nbJours = Integer.parseInt(AddReservation_NbDays.getText());
@@ -1453,10 +1498,9 @@ public class dashboardController implements Initializable {
             return;
         }
 
-        // Parse the reservation date from the DatePicker
         LocalDate dateRes = AddReservation_DateR.getValue();
         if (dateRes == null) {
-            // Handle missing reservation date
+
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
@@ -1465,20 +1509,16 @@ public class dashboardController implements Initializable {
             return;
         }
 
-        // Calculate the expected return date
         LocalDate dateRetourPrevue = dateRes.plusDays(nbJours);
 
-        // Calculate the actual return date (let's assume it's set to the reservation date initially)
         LocalDate dateRetourReel = dateRes;
 
-        // Convert LocalDate to SQL Date
         java.sql.Date sqlDateRes = java.sql.Date.valueOf(dateRes);
         java.sql.Date sqlDateRetourPrevue = java.sql.Date.valueOf(dateRetourPrevue);
         java.sql.Date sqlDateRetourReel = java.sql.Date.valueOf(dateRetourReel);
 
-        // Continue with the database insertion
         String sql = "INSERT INTO reservation "
-                + "(id_livre, id_abonné, date_res, date_retour_prevue, date_retour_reel, code, statut) "
+                + "(id_livre, id_abonne, date_res, date_retour_prevue, date_retour_reel, code, statut) "
                 + "VALUES(?,?,?,?,?,?,?)";
 
         connect = database.connectDb();
@@ -1497,9 +1537,12 @@ public class dashboardController implements Initializable {
             ResultSet generatedKeys = prepare.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int idReservation = generatedKeys.getInt(1);
-                // Now you have the ID of the newly inserted reservation
                 System.out.println("New Reservation ID: " + idReservation);
             }
+
+            String operation_type = "Ajouter Réservation";
+            String operation_desc = "Ajouter Réservation de client avec l'id : " + AddReservation_IDSubscriber.getText() + " Qui prend le livre avec l'id " + AddReservation_IDBook.getText();
+            logHistory(operation_type, operation_desc);
 
             alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Information Message");
@@ -1536,15 +1579,11 @@ public class dashboardController implements Initializable {
             return;
         }
 
-        // Retrieve the new values from the input fields
-        // Assuming AddReservation_IDBook, AddReservation_IDSubscriber are TextFields
         String newIdBook = AddReservation_IDBook.getText();
         String newIdSubscriber = AddReservation_IDSubscriber.getText();
 
-        // Parse the new reservation date from the DatePicker
         LocalDate newDateRes = AddReservation_DateR.getValue();
         if (newDateRes == null) {
-            // Handle missing reservation date
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
@@ -1553,12 +1592,10 @@ public class dashboardController implements Initializable {
             return;
         }
 
-        // Calculate the new expected return date
         int nbDays = Integer.parseInt(AddReservation_NbDays.getText());
         LocalDate newDateRetourPrevue = newDateRes.plusDays(nbDays);
 
-        // Prepare the SQL update statement
-        String sql = "UPDATE reservation SET id_livre=?, id_abonné=?, date_res=?, date_retour_prevue=? WHERE id_res=?";
+        String sql = "UPDATE reservation SET id_livre=?, id_abonne=?, date_res=?, date_retour_prevue=? WHERE id_res=?";
 
         connect = database.connectDb();
         try {
@@ -1569,6 +1606,10 @@ public class dashboardController implements Initializable {
             prepare.setDate(4, java.sql.Date.valueOf(newDateRetourPrevue));
             prepare.setInt(5, selectedReservation.getIdRes());
             prepare.executeUpdate();
+
+            String operation_type = "Modifier Réservation";
+            String operation_desc = "Modifier Réservation de client avec l'id : " + newIdSubscriber + " Qui prend le livre avec l'id " + newIdBook;
+            logHistory(operation_type, operation_desc);
 
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setTitle("Success");
@@ -1620,7 +1661,10 @@ public class dashboardController implements Initializable {
             prepare.setInt(1, selectedReservation.getIdRes());
             prepare.executeUpdate();
 
-            // Display success message
+            String operation_type = "Supprimer Réservation";
+            String operation_desc = "Supprimer Réservation avec l'id : " + selectedReservation.getIdRes();
+            logHistory(operation_type, operation_desc);
+
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setTitle("Success");
             successAlert.setHeaderText(null);
@@ -1676,6 +1720,11 @@ public class dashboardController implements Initializable {
             int rowsAffected = prepare.executeUpdate();
 
             if (rowsAffected > 0) {
+
+                String operation_type = "Confirmer Réservation";
+                String operation_desc = "Confirmer Réservation avec code : " + code;
+                logHistory(operation_type, operation_desc);
+
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Information Message");
                 alert.setHeaderText(null);
@@ -1850,6 +1899,10 @@ public class dashboardController implements Initializable {
             prepare.setString(3, AddAuth_Nationality.getText());
             prepare.executeUpdate();
 
+            String operation_type = "Ajouter Auteur";
+            String operation_desc = "Ajouter Auteur : " + AddAuth_Fname.getText() + AddAuth_Lname.getText();
+            logHistory(operation_type, operation_desc);
+
             // Display success message
             Alert successAlert = new Alert(AlertType.INFORMATION);
             successAlert.setTitle("Success");
@@ -1921,6 +1974,10 @@ public class dashboardController implements Initializable {
             prepare.setInt(4, authData.getId());
             prepare.executeUpdate();
 
+            String operation_type = "Modifier Auteur";
+            String operation_desc = "Modifier Auteur : " + AddAuth_Fname.getText() + " " + AddAuth_Lname.getText();
+            logHistory(operation_type, operation_desc);
+
             Alert successAlert = new Alert(AlertType.INFORMATION);
             successAlert.setTitle("Success");
             successAlert.setHeaderText(null);
@@ -1975,6 +2032,9 @@ public class dashboardController implements Initializable {
             prepare.setInt(1, authData.getId());
             prepare.executeUpdate();
 
+            String operation_type = "Supprimer Auteur";
+            String operation_desc = "Supprimer Auteur : " + authData.getId();
+            logHistory(operation_type, operation_desc);
             // Display success message
             Alert successAlert = new Alert(AlertType.INFORMATION);
             successAlert.setTitle("Success");
@@ -2090,7 +2150,7 @@ public class dashboardController implements Initializable {
     }
 
     public void updateProfileInformation() {
-        // Get the updated profile information from text fields
+
         change_profile_fname.setText(getData.fname);
         change_profile_lname.setText(getData.lname);
         String newEmail = change_profile_email.getText();
@@ -2120,6 +2180,9 @@ public class dashboardController implements Initializable {
             int rowsAffected = prepare.executeUpdate();
 
             if (rowsAffected > 0) {
+                String operation_type = "Modifier Profile";
+                String operation_desc = "Modifier Les Informations De Profile";
+                logHistory(operation_type, operation_desc);
                 Alert successAlert = new Alert(AlertType.INFORMATION);
                 successAlert.setTitle("Success");
                 successAlert.setHeaderText(null);
@@ -2165,30 +2228,181 @@ public class dashboardController implements Initializable {
     }
     //-------------STATS-----------------------
 
-    public void TotalClientschart() {
+    public void book_per_auth() {
+        String book_per_authSql = "SELECT a.nom, COUNT(b.id_livre) AS num_livres "
+                + "FROM auteur a INNER JOIN livre b "
+                + "ON a.id_auteur = b.id_auteur GROUP BY a.nom";
 
-        nb_clients_chart.getData().clear();
+        Connection connect = database.connectDb();
+        try {
+            XYChart.Series ChartData = new XYChart.Series<>();
+            PreparedStatement prepare = connect.prepareStatement(book_per_authSql);
+            ResultSet result = prepare.executeQuery();
 
-        String sql = "SELECT COUNT(id_abonné) FROM abonne";
+            while (result.next()) {
+                String authorName = result.getString(1);
+                int numBooks = result.getInt(2);
+                ChartData.getData().add(new XYChart.Data<>(authorName, numBooks));
+            }
+
+            livres_par_auteur_bar.getData().add(ChartData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reservation_per_genre() {
+
+        String sql = "SELECT b.genre, COUNT(r.id_res) AS num_reservations "
+                + "FROM reservation r INNER JOIN livre b "
+                + "ON r.id_livre = b.id_livre GROUP BY b.genre; ";
 
         connect = database.connectDb();
 
         try {
-            XYChart.Series chart = new XYChart.Series();
+            XYChart.Series chart = new XYChart.Series<>();
 
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
             while (result.next()) {
-                chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
+                chart.getData().add(new XYChart.Data<>(result.getString(1), result.getInt(2)));
             }
 
-            nb_clients_chart.getData().add(chart);
+            reservation_per_genre_linechart.getData().add(chart);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void book_per_genre() {
+        String sql = "SELECT genre, COUNT(id_livre) AS num_livre FROM livre GROUP BY genre";
+
+        connect = database.connectDb();
+
+        try {
+            PreparedStatement prepare = connect.prepareStatement(sql);
+            ResultSet result = prepare.executeQuery();
+
+            /*
+            ObservableList<PieChart.Data> pieChartData = observableArrayList(
+                    new PieChart.Data("Roman", 13),
+                    new PieChart.Data("Fantaisie", 25),
+                    new PieChart.Data("Mystère", 10),
+                    new PieChart.Data("Policier", 43),
+                    new PieChart.Data("Thriller", 25),
+                    new PieChart.Data("Horreur", 22),
+                    new PieChart.Data("Romance", 12),
+                    new PieChart.Data("Historique", 82),
+                    new PieChart.Data("Jeunesse", 22));
+            book_per_genre_piechart.setData(pieChartData);
+             */
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                String genre = result.getString("genre");
+                int numBooks = result.getInt("num_livre");
+                PieChart.Data data = new PieChart.Data(genre, numBooks);
+                book_per_genre_piechart.getData().add(data);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void prop_per_book() {
+        String book_per_authSql = "SELECT a.nom AS subscriber_name, COUNT(p.id_prop) AS num_propositions "
+                + "FROM proposition p INNER JOIN abonne a "
+                + "ON p.id_abonne = a.id_abonne "
+                + "GROUP BY p.id_abonne, a.nom";
+
+        Connection connect = database.connectDb();
+        try {
+            XYChart.Series ChartData = new XYChart.Series<>();
+            PreparedStatement prepare = connect.prepareStatement(book_per_authSql);
+            ResultSet result = prepare.executeQuery();
+
+            while (result.next()) {
+                String authorName = result.getString(1);
+                int numBooks = result.getInt(2);
+                ChartData.getData().add(new XYChart.Data<>(authorName, numBooks));
+            }
+
+            prop_per_book_bar.getData().add(ChartData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //------------------Historique-------------------
+
+    public void logHistory(String operation_type, String operation_desc) {
+        String logSql = "INSERT INTO historique (id_manager, type_operation, desc_operation, date) VALUES (?, ?, ?, ?)";
+
+        connect = database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(logSql);
+            prepare.setInt(1, getData.id);
+            prepare.setString(2, operation_type);
+            prepare.setString(3, operation_desc);
+            prepare.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            prepare.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (prepare != null) {
+                    prepare.close();
+                }
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public ObservableList<HistoryData> addHistoryListData() {
+        ObservableList<HistoryData> listData = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM historique where id_manager = " + getData.id;
+
+        connect = database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+            HistoryData HistoryD;
+            while (result.next()) {
+                HistoryD = new HistoryData(
+                        result.getInt("id_historique"),
+                        result.getInt("id_manager"),
+                        result.getString("type_operation"),
+                        result.getString("desc_operation"),
+                        result.getDate("date")
+                );
+                listData.add(HistoryD);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listData;
+    }
+    private ObservableList<HistoryData> addHistoryList;
+
+    public void HistoryShowListData() {
+        addHistoryList = addHistoryListData();
+
+        History_Col_Type.setCellValueFactory(new PropertyValueFactory<>("type_operation"));
+        History_Col_Desc.setCellValueFactory(new PropertyValueFactory<>("desc_operation"));
+        History_Col_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        History_tableview.setItems(addHistoryList);
     }
 
     //---------------MAIN----------------------
@@ -2217,11 +2431,15 @@ public class dashboardController implements Initializable {
         TotalAuth();
         TotalAuthBooks();
         //Charts 
-        TotalClientschart();
+        book_per_auth();
+        reservation_per_genre();
+        book_per_genre();
+        prop_per_book();
 
         //Profile
         GetProfileInformations();
         display_data();
+        HistoryShowListData();
 
     }
 

@@ -21,8 +21,21 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.sql.*;
 import javafx.scene.Node;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class LoginController implements Initializable {
+
+    private Connection connect;
+    private Statement statement;
+    private PreparedStatement prepare;
+    private ResultSet result;
 
     @FXML
     private TextField username;
@@ -36,7 +49,7 @@ public class LoginController implements Initializable {
     private Button Quit_btn;
     @FXML
     private PasswordField password;
-   
+
     Login_service service = new Login_service();
 
     @Override
@@ -65,15 +78,25 @@ public class LoginController implements Initializable {
                 break;
             }
             case 2: {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Welcome");
+                alert.setHeaderText("Success");
+                alert.setContentText("Welcome " + username.getText() + " to our library");
+                alert.showAndWait();
+
                 try {
+                    String operation_type = "Manager Connecter";
+                    String operation_desc = "Le manager " + getData.fname + " " + getData.lname + " Est connecter";
+                    logHistory(operation_type, operation_desc);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                     Parent root = loader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
+
                     stage.show();
 
+                    // Hide the login window
                     ((Node) (event.getSource())).getScene().getWindow().hide();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -92,6 +115,35 @@ public class LoginController implements Initializable {
                 break;
         }
 
+    }
+
+    public void logHistory(String operation_type, String operation_desc) {
+        String logSql = "INSERT INTO historique (id_manager, type_operation, desc_operation, date) VALUES (?, ?, ?, ?)";
+
+        connect = database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(logSql);
+            prepare.setInt(1, getData.id);
+            prepare.setString(2, operation_type);
+            prepare.setString(3, operation_desc);
+            prepare.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            prepare.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (prepare != null) {
+                    prepare.close();
+                }
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
