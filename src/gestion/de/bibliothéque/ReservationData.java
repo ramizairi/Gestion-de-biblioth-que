@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestion.de.bibliothéque;
 
 import java.util.Date;
 
-/**
- *
- * @author ramiz
- */
+
 public class ReservationData {
 
     private int idRes;

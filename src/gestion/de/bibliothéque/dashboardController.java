@@ -61,9 +61,23 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Alert;
 import static javafx.collections.FXCollections.observableArrayList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.Label;
 
 public class dashboardController implements Initializable {
+
+    @FXML
+    private TextField cherche_authors_text_field;
+
+    @FXML
+    private TextField cherche_book_text_field;
+
+    @FXML
+    private TextField cherche_clients_text_field;
+
+    @FXML
+    private TextField cherche_reservation_text_field;
 
     @FXML
     private TableColumn<HistoryData, String> History_Col_Date;
@@ -497,6 +511,8 @@ public class dashboardController implements Initializable {
     @FXML
     private JFXButton voir_reservation_btn;
 
+    @FXML
+    private ImageView search_icon;
     //--------------MANAGEMNT------------------------------
     private Connection connect;
     private Statement statement;
@@ -577,6 +593,11 @@ public class dashboardController implements Initializable {
             gerer_auth_form.setVisible(false);
             stats_form.setVisible(false);
             profile_form.setVisible(false);
+            cherche_authors_text_field.setVisible(false);
+            cherche_book_text_field.setVisible(true);
+            cherche_clients_text_field.setVisible(false);
+            cherche_reservation_text_field.setVisible(false);
+            search_icon.setVisible(true);
             gerer_livre_btn.setStyle("-fx-background-color: red;");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
@@ -584,10 +605,29 @@ public class dashboardController implements Initializable {
             stats_btn.setStyle("-fx-background-color: transparent");
             user_profile_btn.setStyle("-fx-background-color: transparent");
 
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
             TotalBooks();
             TotalAvailableBooks();
             TotalEmpruntedBooks();
-            addBookGenreList();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
+
         } else if (event.getSource() == voir_reservation_btn) {
             gerer_livre_form.setVisible(false);
             gerer_reservation_form.setVisible(true);
@@ -595,6 +635,11 @@ public class dashboardController implements Initializable {
             gerer_auth_form.setVisible(false);
             stats_form.setVisible(false);
             profile_form.setVisible(false);
+            cherche_authors_text_field.setVisible(false);
+            cherche_book_text_field.setVisible(false);
+            cherche_clients_text_field.setVisible(false);
+            cherche_reservation_text_field.setVisible(true);
+            search_icon.setVisible(true);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: red");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
@@ -602,9 +647,29 @@ public class dashboardController implements Initializable {
             stats_btn.setStyle("-fx-background-color: transparent");
             user_profile_btn.setStyle("-fx-background-color: transparent");
 
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
             TotalReservation();
             TotalActifReservations();
             TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
+
         } else if (event.getSource() == gerer_client_btn) {
             gerer_livre_form.setVisible(false);
             gerer_reservation_form.setVisible(false);
@@ -612,6 +677,11 @@ public class dashboardController implements Initializable {
             gerer_auth_form.setVisible(false);
             stats_form.setVisible(false);
             profile_form.setVisible(false);
+            cherche_authors_text_field.setVisible(false);
+            cherche_book_text_field.setVisible(false);
+            cherche_clients_text_field.setVisible(true);
+            cherche_reservation_text_field.setVisible(false);
+            search_icon.setVisible(true);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: red;");
@@ -619,9 +689,29 @@ public class dashboardController implements Initializable {
             stats_btn.setStyle("-fx-background-color: transparent");
             user_profile_btn.setStyle("-fx-background-color: transparent");
 
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
             TotalClients();
             TotalActifClients();
             TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
+
         } else if (event.getSource() == stats_btn) {
             gerer_livre_form.setVisible(false);
             gerer_reservation_form.setVisible(false);
@@ -629,12 +719,41 @@ public class dashboardController implements Initializable {
             gerer_auth_form.setVisible(false);
             stats_form.setVisible(true);
             profile_form.setVisible(false);
+            cherche_authors_text_field.setVisible(false);
+            cherche_book_text_field.setVisible(false);
+            cherche_clients_text_field.setVisible(false);
+            cherche_reservation_text_field.setVisible(false);
+            search_icon.setVisible(false);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             gerer_auth_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: red;");
             user_profile_btn.setStyle("-fx-background-color: transparent");
+
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
+
         } else if (event.getSource() == gerer_auth_btn) {
             gerer_livre_form.setVisible(false);
             gerer_reservation_form.setVisible(false);
@@ -642,14 +761,41 @@ public class dashboardController implements Initializable {
             gerer_auth_form.setVisible(true);
             stats_form.setVisible(false);
             profile_form.setVisible(false);
+            cherche_authors_text_field.setVisible(true);
+            cherche_book_text_field.setVisible(false);
+            cherche_clients_text_field.setVisible(false);
+            cherche_reservation_text_field.setVisible(false);
+            search_icon.setVisible(true);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             gerer_auth_btn.setStyle("-fx-background-color: red");
             stats_btn.setStyle("-fx-background-color: transparent;");
             user_profile_btn.setStyle("-fx-background-color: transparent");
+
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
             TotalAuth();
             TotalAuthBooks();
+
         } else if (event.getSource() == user_profile_btn) {
             rightsidepane.setVisible(false);
             profile_form.setVisible(true);
@@ -659,6 +805,29 @@ public class dashboardController implements Initializable {
             gerer_auth_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: transparent;");
             user_profile_btn.setStyle("-fx-background-color: transparent;");
+
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
         }
     }
 
@@ -682,6 +851,41 @@ public class dashboardController implements Initializable {
     }
 
     //-------------CLIENT---------------------
+    private void searchClient() {
+        FilteredList<AbonneData> filteredData = new FilteredList<>(addAbonneList, p -> true);
+
+        cherche_clients_text_field.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(abonneData -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (abonneData.getNom().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (abonneData.getPrenom().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(abonneData.getIdAbonne()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (abonneData.getAdresseMail().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(abonneData.getNumero()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (abonneData.getAdresse().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<AbonneData> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(AddClient_tableview.comparatorProperty());
+
+        AddClient_tableview.setItems(sortedData);
+    }
+
     public ObservableList<AbonneData> addAbonneListData() {
         ObservableList<AbonneData> listData = FXCollections.observableArrayList();
 
@@ -696,10 +900,11 @@ public class dashboardController implements Initializable {
             AbonneData AbonneD;
             while (result.next()) {
                 AbonneD = new AbonneData(
-                                                result.getString("nom"),
-                        result.getString("prenom"),
-                        result.getString("adresse"),
                         result.getInt("id_abonne"),
+                        result.getString("nom"),
+                        result.getString("prenom"),
+                        result.getInt("numero"),
+                        result.getString("adresse"),
                         result.getString("adresse_mail"),
                         result.getString("mot_de_passe")
                 );
@@ -1037,6 +1242,39 @@ public class dashboardController implements Initializable {
     }
 
     //---------------BOOK------------------------------
+    public void searchBook() {
+        FilteredList<BookData> filteredData = new FilteredList<>(bookList, p -> true);
+
+        cherche_book_text_field.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(bookData -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(bookData.getPrice()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (bookData.getTitre().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(bookData.getIdLivre()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(bookData.getIdAuteur()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (bookData.getGenre().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<BookData> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(AddBook_tableview.comparatorProperty());
+
+        AddBook_tableview.setItems(sortedData);
+    }
+
     private String[] listGenre = {"Finance personnelle", "Roman", "Science-fiction", "Fantaisie", "Mystère", "Policier", "Thriller", "Horreur", "Romance", "Historique", "Aventure", "Dystopie", "Réalisme magique", "Contemporain", "Jeunesse", "Nouvelle", "Biographie", "Autobiographie", "Science", "Philosophie", "Poésie"};
 
     public void addBookGenreList() {
@@ -1339,8 +1577,7 @@ public class dashboardController implements Initializable {
         }
     }
 
-    private void clearBookFields() {
-        // Clear input fields after successful deletion
+    public void clearBookFields() {
         AddBook_ID.clear();
         AddBook_Titre.clear();
         AddBook_Auth.clear();
@@ -1427,6 +1664,39 @@ public class dashboardController implements Initializable {
     }
 
     //---------------RESERVATION---------------
+    public void searchReservation() {
+        FilteredList<ReservationData> filteredData = new FilteredList<>(reservationList, p -> true);
+
+        cherche_reservation_text_field.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(reservationData -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(reservationData.getIdRes()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(reservationData.getIdLivre()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(reservationData.getIdAbonne()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (reservationData.getCode().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(reservationData.getStatus()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<ReservationData> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(AddReservation_tableview.comparatorProperty());
+
+        AddReservation_tableview.setItems(sortedData);
+    }
+
     public class RandomGenerator {
         // Function to generate a random 12-character string of uppercase letters
 
@@ -1860,6 +2130,37 @@ public class dashboardController implements Initializable {
     }
 
     //---------------Auth----------------------
+    public void searchAuthor() {
+        FilteredList<AuthData> filteredData = new FilteredList<>(addAuthList, p -> true);
+
+        cherche_authors_text_field.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(authData -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(authData.getId()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (authData.getFname().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (authData.getLname().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (authData.getNationality().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<AuthData> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(AddAuth_tableview.comparatorProperty());
+
+        AddAuth_tableview.setItems(sortedData);
+    }
+
     public ObservableList<AuthData> addAuthListData() {
         ObservableList<AuthData> listData = FXCollections.observableArrayList();
 
@@ -2242,6 +2543,34 @@ public class dashboardController implements Initializable {
             personal_information_btn.setStyle("-fx-text-fill: black;");
             modifie_data_btn.setStyle("-fx-text-fill: #b7b7b7;");
             history_btn.setStyle("-fx-text-fill: #b7b7b7;");
+
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
+            //Charts 
+            book_per_auth();
+            reservation_per_genre();
+            book_per_genre();
+            prop_per_book();
         } else if (event.getSource() == modifie_data_btn) {
             PersonalInformation_panel.setVisible(false);
             ModifieInformations_panel.setVisible(true);
@@ -2249,6 +2578,34 @@ public class dashboardController implements Initializable {
             personal_information_btn.setStyle("-fx-text-fill: #b7b7b7;");
             modifie_data_btn.setStyle("-fx-text-fill: black;");
             history_btn.setStyle("-fx-text-fill: #b7b7b7;");
+
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
+            //Charts 
+            book_per_auth();
+            reservation_per_genre();
+            book_per_genre();
+            prop_per_book();
         } else if (event.getSource() == history_btn) {
             PersonalInformation_panel.setVisible(false);
             gerer_reservation_form.setVisible(false);
@@ -2256,9 +2613,60 @@ public class dashboardController implements Initializable {
             personal_information_btn.setStyle("-fx-text-fill: #b7b7b7;");
             modifie_data_btn.setStyle("-fx-text-fill: #b7b7b7;");
             history_btn.setStyle("-fx-text-fill: black;");
+
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
+            //Charts 
+            book_per_auth();
+            reservation_per_genre();
+            book_per_genre();
+            prop_per_book();
         } else if (event.getSource() == profile_retour_btn) {
             profile_form.setVisible(false);
             rightsidepane.setVisible(true);
+
+            addAbonneShowListData();
+            showBookListData();
+            showReservationListData();
+            addAuthShowListData();
+            //Charge the combolist items 
+            addBookGenreList();
+
+            //Inner - Stats
+            TotalReservation();
+            TotalActifReservations();
+            TotalAttentReservations();
+
+            TotalBooks();
+            TotalAvailableBooks();
+            TotalEmpruntedBooks();
+
+            TotalClients();
+            TotalActifClients();
+            TotalLateReturns();
+
+            TotalAuth();
+            TotalAuthBooks();
         }
     }
     //-------------STATS-----------------------
@@ -2486,6 +2894,12 @@ public class dashboardController implements Initializable {
 
         //Edits
         Timenow();
+
+        //Search
+        searchReservation();
+        searchAuthor();
+        searchClient();
+        searchBook();
     }
 
 }

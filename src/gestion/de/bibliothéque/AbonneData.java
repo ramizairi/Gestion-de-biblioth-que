@@ -10,7 +10,7 @@ public class AbonneData {
     private String adresseMail;
     private String password;
 
-    public AbonneData(String nom, String prenom, String adresse, int idAbonne, String adresseMail, String password) {
+    public AbonneData(int idAbonne, String nom, String prenom, int numero, String adresse, String adresseMail, String password) {
         this.idAbonne = idAbonne;
         this.nom = nom;
         this.prenom = prenom;

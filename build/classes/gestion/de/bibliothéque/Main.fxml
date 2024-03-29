@@ -21,7 +21,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="main_form" prefHeight="590.0" prefWidth="916.0" style="-fx-background-radius: 20px; -fx-background-color: silver;" styleClass="MainPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestion.de.bibliothéque.dashboardController">
    <children>
-      <Pane layoutX="5.0" layoutY="4.0" prefHeight="28.0" prefWidth="910.0" styleClass="hpane" stylesheets="@style.css">
+      <Pane fx:id="top_pane" layoutX="5.0" layoutY="4.0" prefHeight="28.0" prefWidth="910.0" styleClass="hpane" stylesheets="@style.css">
          <children>
             <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -153,18 +153,12 @@
                         <Image url="@Ressources/user.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="228.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="search_icon" fitHeight="20.0" fitWidth="19.0" layoutX="228.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Ressources/search.png" />
                      </image>
                   </ImageView>
-                  <JFXButton fx:id="settings_btn" layoutX="486.0" layoutY="10.0" prefHeight="35.0" prefWidth="92.0" styleClass="hbtn" stylesheets="@style.css" text="Réglage" textFill="WHITE" />
-                  <ImageView fitHeight="16.0" fitWidth="17.0" layoutX="489.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Ressources/settings.png" />
-                     </image>
-                  </ImageView>
-                  <TextField layoutX="255.0" layoutY="16.0" prefHeight="26.0" prefWidth="166.0" promptText="Chercher..." style="-fx-background-color: transparent; -fx-background-radius: 5px; -fx-border-color: white; -fx-border-radius: 5px;" />
+                  <TextField fx:id="cherche_book_text_field" layoutX="255.0" layoutY="16.0" prefHeight="26.0" prefWidth="166.0" promptText="Chercher..." style="-fx-background-color: transparent; -fx-background-radius: 5px; -fx-border-color: white; -fx-border-radius: 5px;" />
                   <Text fill="WHITE" layoutX="9.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back">
                      <font>
                         <Font size="15.0" />
@@ -173,6 +167,9 @@
                      <font>
                         <Font size="15.0" />
                      </font></Text>
+                  <TextField fx:id="cherche_reservation_text_field" layoutX="255.0" layoutY="16.0" prefHeight="26.0" prefWidth="166.0" promptText="Chercher..." style="-fx-background-color: transparent; -fx-background-radius: 5px; -fx-border-color: white; -fx-border-radius: 5px;" visible="false" />
+                  <TextField fx:id="cherche_clients_text_field" layoutX="255.0" layoutY="16.0" prefHeight="26.0" prefWidth="166.0" promptText="Chercher..." style="-fx-background-color: transparent; -fx-background-radius: 5px; -fx-border-color: white; -fx-border-radius: 5px;" visible="false" />
+                  <TextField fx:id="cherche_authors_text_field" layoutX="255.0" layoutY="16.0" prefHeight="26.0" prefWidth="166.0" promptText="Chercher..." style="-fx-background-color: transparent; -fx-background-radius: 5px; -fx-border-color: white; -fx-border-radius: 5px;" visible="false" />
                </children>
             </Pane>
             <AnchorPane fx:id="gerer_livre_form" layoutX="12.0" layoutY="68.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="514.0" prefWidth="680.0" styleClass="anchor1" stylesheets="@style.css">
@@ -282,7 +279,7 @@
                   </ImageView>
                   <JFXComboBox fx:id="AddBook_Genre" focusColor="RED" labelFloat="true" layoutX="190.0" layoutY="379.0" onAction="#addBookGenreList" prefHeight="27.0" prefWidth="151.0" promptText="Genre" unFocusColor="#aca9a9" viewOrder="2.0" visibleRowCount="2" />
                   <TextField fx:id="AddBook_Desc" layoutX="190.0" layoutY="464.0" prefHeight="30.0" prefWidth="151.0" promptText="Description" style="-fx-background-color: #dfe6e9;" styleClass="inputs" stylesheets="@style.css" />
-                  <JFXButton fx:id="clear_book_btn" layoutX="525.0" layoutY="478.0" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: #4869CE;" styleClass="upimage" text="Actualisé" textFill="WHITE" />
+                  <JFXButton fx:id="clear_book_btn" layoutX="525.0" layoutY="478.0" onAction="#clearBookFields" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: #4869CE;" styleClass="upimage" text="Actualisé" textFill="WHITE" />
                   <ImageView fitHeight="20.0" fitWidth="19.0" layoutX="538.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Ressources/clean.png" />
@@ -661,7 +658,7 @@
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <PieChart fx:id="book_per_genre_piechart" layoutX="48.0" layoutY="274.0" prefHeight="206.0" prefWidth="278.0" />
+                  <PieChart fx:id="book_per_genre_piechart" layoutX="-20.0" layoutY="271.0" prefHeight="236.0" prefWidth="357.0" />
                   <Text fill="#818080" layoutX="17.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livres par genre">
                      <font>
                         <Font size="20.0" />
@@ -685,7 +682,7 @@
          </children></AnchorPane>
       <AnchorPane fx:id="profile_form" layoutX="230.0" layoutY="36.0" prefHeight="578.0" prefWidth="687.0" style="-fx-background-color: white;" styleClass="anchor1" visible="false">
          <children>
-            <TextField fx:id="operation_txt" layoutX="282.0" layoutY="9.0" prefHeight="27.0" prefWidth="250.0" promptText="Opération..." styleClass="showhistory_text_fild" stylesheets="@style.css" />
+            <TextField fx:id="operation_txt" editable="false" layoutX="282.0" layoutY="9.0" prefHeight="27.0" prefWidth="250.0" promptText="Opération..." styleClass="showhistory_text_fild" stylesheets="@style.css" />
             <ImageView fx:id="profile_image" fitHeight="158.0" fitWidth="178.0" layoutX="80.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
                <image>
                   <Image url="@Ressources/me.jpeg" />
@@ -748,17 +745,17 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="colg2_txt" fill="#7e7e7e" layoutX="128.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rami">
+                  <Text fx:id="colg2_txt" fill="#7e7e7e" layoutX="128.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aziz">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="colg3_txt" fill="#7e7e7e" layoutX="213.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rami">
+                  <Text fx:id="colg3_txt" fill="#7e7e7e" layoutX="213.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jerbi">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="colg4_txt" fill="#7e7e7e" layoutX="311.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rami">
+                  <Text fx:id="colg4_txt" fill="#7e7e7e" layoutX="287.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Houssem">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -778,7 +775,7 @@
                         <Font name="Berlin Sans FB" size="57.0" />
                      </font>
                   </Text>
-                  <Text fill="#3e1971" layoutX="311.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4" wrappingWidth="15.94775390625">
+                  <Text fill="#3e1971" layoutX="307.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4" wrappingWidth="15.94775390625">
                      <font>
                         <Font name="Berlin Sans FB" size="57.0" />
                      </font>

@@ -8,20 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import java.sql.*;
 import javafx.scene.Node;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 
 public class LoginController implements Initializable {
 
@@ -49,7 +43,8 @@ public class LoginController implements Initializable {
     private Button Quit_btn;
     @FXML
     private PasswordField password;
-
+    private double x = 0;
+    private double y = 0;
     Login_service service = new Login_service();
 
     @Override
@@ -73,26 +68,48 @@ public class LoginController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Welcome");
                 alert.setHeaderText("Success");
-                alert.setContentText("Welcome " + username.getText() + " to our library");
+                alert.setContentText("Welcome " + username.getText() + " to our library" + " We don't have user desktop application right now! Please try to use our website. Thanks!");
                 alert.showAndWait();
                 break;
             }
             case 2: {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Welcome");
-                alert.setHeaderText("Success");
-                alert.setContentText("Welcome " + username.getText() + " to our library");
-                alert.showAndWait();
-
                 try {
                     String operation_type = "Connexion";
                     String operation_desc = getData.fname + " " + getData.lname + " Est connecter";
                     logHistory(operation_type, operation_desc);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                     Parent root = loader.load();
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
 
+                    // Create the scene
+                    Scene scene = new Scene(root);
+
+                    // Set up the stage
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.initStyle(StageStyle.TRANSPARENT);
+
+                    // Set icon
+                    Image icon = new Image(getClass().getResourceAsStream("Ressources/hecLOGO.png"));
+                    stage.getIcons().add(icon);
+
+                    // Add mouse event handlers for dragging the stage
+                    root.setOnMousePressed((MouseEvent mouseEvent) -> {
+                        x = mouseEvent.getSceneX();
+                        y = mouseEvent.getSceneY();
+                    });
+                    
+                    root.setOnMouseDragged((MouseEvent mouseEvent) -> {
+                        stage.setX(mouseEvent.getScreenX() - x);
+                        stage.setY(mouseEvent.getScreenY() - y);
+                        stage.setOpacity(.8);
+                    });
+                    
+                    root.setOnMouseReleased((MouseEvent mouseEvent) -> {
+                        stage.setOpacity(1);
+                    });
+                    
+
+                    // Show the stage
                     stage.show();
 
                     // Hide the login window
@@ -104,11 +121,48 @@ public class LoginController implements Initializable {
             }
 
             case 3: {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("WelcomeSuper Admin");
-                alert.setHeaderText("Success");
-                alert.setContentText("Welcome " + username.getText() + " to your library");
-                alert.showAndWait();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("SuperUser.fxml"));
+                    Parent root = loader.load();
+
+                    // Create the scene
+                    Scene scene = new Scene(root);
+
+                    // Set up the stage
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.initStyle(StageStyle.TRANSPARENT);
+
+                    // Set icon
+                    Image icon = new Image(getClass().getResourceAsStream("Ressources/hecLOGO.png"));
+                    stage.getIcons().add(icon);
+
+                    // Add mouse event handlers for dragging the stage
+                    root.setOnMousePressed((MouseEvent mouseEvent) -> {
+                        x = mouseEvent.getSceneX();
+                        y = mouseEvent.getSceneY();
+                    });
+                    
+                    root.setOnMouseDragged((MouseEvent mouseEvent) -> {
+                        stage.setX(mouseEvent.getScreenX() - x);
+                        stage.setY(mouseEvent.getScreenY() - y);
+                        stage.setOpacity(.8);
+                    });
+                    
+                    root.setOnMouseReleased((MouseEvent mouseEvent) -> {
+                        stage.setOpacity(1);
+                    });
+                    
+
+                    // Show the stage
+                    stage.show();
+
+                    // Hide the login window
+                    ((Node) (event.getSource())).getScene().getWindow().hide();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 break;
             }
             default:
