@@ -21,7 +21,7 @@ public class GestionDeBibliothéque extends Application {
 
         Scene scene = new Scene(root);
 
-        Image icon = new Image(getClass().getResourceAsStream("Ressources/logo.png"));
+        Image icon = new Image(getClass().getResourceAsStream("Ressources/hecLOGO.png"));
         stage.getIcons().add(icon);
         root.setOnMousePressed((MouseEvent event) -> {
             x = event.getSceneX();

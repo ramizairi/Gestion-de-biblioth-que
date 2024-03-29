@@ -85,8 +85,8 @@ public class LoginController implements Initializable {
                 alert.showAndWait();
 
                 try {
-                    String operation_type = "Manager Connecter";
-                    String operation_desc = "Le manager " + getData.fname + " " + getData.lname + " Est connecter";
+                    String operation_type = "Connexion";
+                    String operation_desc = getData.fname + " " + getData.lname + " Est connecter";
                     logHistory(operation_type, operation_desc);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                     Parent root = loader.load();

@@ -22,7 +22,7 @@ public class Login_service implements Login_Interface {
                 String hashedPassword = resultSet1.getString("mot_de_passe");
                 if (BCrypt.checkpw(password, hashedPassword)) {
                     ok = 1;
-                    loggedId = resultSet1.getInt("id_abonné"); // Save abonne_id to loggedId
+                    loggedId = resultSet1.getInt("id_abonne"); // Save abonne_id to loggedId
                 }
             } else {
                 // Vérifier si l'utilisateur est un manager

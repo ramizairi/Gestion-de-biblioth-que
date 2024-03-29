@@ -9,12 +9,15 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-border-width: 5px 5px 5px 5px; -fx-border-color: #141d54; -fx-background-color: transparent;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestion.de.bibliothéque.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-border-width: 5px 5px 5px 5px; -fx-border-color: linear-gradient(to bottom right, #3E1971, #4869CE);; -fx-background-color: transparent;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestion.de.bibliothéque.LoginController">
    <children>
-      <BorderPane prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: #141d54; -fx-border-radius: 5px;">
+      <BorderPane prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to bottom right, #3E1971, #4869CE);; -fx-border-radius: 5px;">
          <center>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Library" textAlignment="CENTER" x="10.0" y="10.0" BorderPane.alignment="CENTER">
                <font>
@@ -35,13 +38,20 @@
                </BorderPane.margin>
             </Text>
          </top>
+         <bottom>
+            <ImageView fitHeight="197.0" fitWidth="232.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@Ressources/HecLibrary%20LOGO.png" />
+               </image>
+            </ImageView>
+         </bottom>
       </BorderPane>
-      <TextField fx:id="username" layoutX="359.0" layoutY="166.0" prefHeight="36.0" prefWidth="264.0" promptText="Email" style="-fx-background-color: transparent; -fx-border-color: #141d54; -fx-border-width: 0px 0px 2px 0px; -fx-border-radius: 5px;">
+      <TextField fx:id="username" layoutX="359.0" layoutY="166.0" prefHeight="36.0" prefWidth="264.0" promptText="Email" style="-fx-background-color: transparent; -fx-border-color: linear-gradient(to bottom right, #3E1971, #4869CE);; -fx-border-width: 0px 0px 2px 0px; -fx-border-radius: 5px;">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
       </TextField>
-      <Button fx:id="Sign_in_btn" layoutX="400.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#Login_clicked" prefHeight="40.0" prefWidth="98.0" style="-fx-background-color: #141d54;" text="Sign in" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="Sign_in_btn" layoutX="400.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#Login_clicked" prefHeight="40.0" prefWidth="98.0" style="-fx-background-color: linear-gradient(to bottom right, #3E1971, #4869CE);;" text="Sign in" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Arial Black" size="18.0" />
          </font>
@@ -52,8 +62,8 @@
          </font>
       </Button>
       <Hyperlink fx:id="forget_password" layoutX="437.0" layoutY="462.0" onMouseClicked="#forget_password" style="-fx-background-color: transparent;" text="Forget your Password ?" textAlignment="CENTER" />
-      <Button fx:id="Quit_btn" layoutX="661.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#quitter" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: #141d54;" text="X" textFill="WHITE" />
-      <PasswordField fx:id="password" layoutX="359.0" layoutY="243.0" prefHeight="36.0" prefWidth="264.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #141d54; -fx-border-width: 0px 0px 2px 0px; -fx-border-radius: 5px;">
+      <Button fx:id="Quit_btn" layoutX="661.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#quitter" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: linear-gradient(to bottom right, #3E1971, #4869CE);;" text="X" textFill="WHITE" />
+      <PasswordField fx:id="password" layoutX="359.0" layoutY="243.0" prefHeight="36.0" prefWidth="264.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: linear-gradient(to bottom right, #3E1971, #4869CE);; -fx-border-width: 0px 0px 2px 0px; -fx-border-radius: 5px;">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
@@ -68,5 +78,51 @@
             <Image url="@Ressources/password.png" />
          </image>
       </ImageView>
+      <Text layoutX="318.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Se connecter...">
+         <font>
+            <Font size="48.0" />
+         </font>
+         <fill>
+            <LinearGradient endX="0.5871211904467959" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.2800000011920929" green="0.4099999964237213" blue="0.800000011920929" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.11951219512195121">
+                     <color>
+                        <Color red="0.2823529541492462" green="0.4117647111415863" blue="0.8078431487083435" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.2417161802842793">
+                     <color>
+                        <Color red="0.2823529541492462" green="0.4117647111415863" blue="0.8078431487083435" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.5634146341463414">
+                     <color>
+                        <Color red="0.2823529541492462" green="0.4117647111415863" blue="0.8078431487083435" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.67342349735745">
+                     <color>
+                        <Color red="0.2823529541492462" green="0.4117647111415863" blue="0.8078431487083435" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8097068574992612">
+                     <color>
+                        <Color red="0.2800000011920929" green="0.4099999964237213" blue="0.800000011920929" opacity="0.4984802305698395" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.24313725531101227" green="0.09803921729326248" blue="0.4431372582912445" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Text>
    </children>
 </AnchorPane>

@@ -1,5 +1,5 @@
 .leftsidepane {
-    -fx-background-color: #6c5ce7;
+    -fx-background-color: linear-gradient(to bottom right, #3E1971, #4869CE);
     -fx-background-radius: 20px;
 }
 .rightsidepane{
@@ -10,24 +10,26 @@
     -fx-background-radius: 15px;
     -fx-border-color: white;
     -fx-border-radius: 15px;
+    -fx-cursor: hand;
 }
 .btn:hover {
     -fx-background-color: red;
 }
 .innerpane {
-    -fx-background-color: #6c5ce7;
+    -fx-background-color: linear-gradient(to bottom right, #3E1971, #4869CE);
     -fx-background-radius: 20px;
 }
 .logoleftpane {
     -fx-show-delay: 5s;
 }
 .hpane {
-    -fx-background-color: #6c5ce7;
+    -fx-background-color: linear-gradient(to bottom right, #3E1971, #4869CE);
     -fx-background-radius: 10px;
 }
 .hbtn {
     -fx-background-color: transparent;
     -fx-background-radius: 15px;
+    -fx-cursor: hand;
 }
 .hbtn:hover {
     -fx-background-color: red;
@@ -69,13 +71,12 @@
 }
 .table-view {
     -fx-background-color: transparent;
-    -fx-border-color: #6c5ce7;
-    -fx-border-radius: 8px;
+    -fx-border-color: linear-gradient(to bottom right, #3E1971, #4869CE);
     -fx-padding: 0px;
 }
 .table-view .table-column {
     -fx-alignment: center;
-    -fx-background-color: #6c5ce7;
+    -fx-background-color: #4869CE
 }
 .table-view .column-header-background {
     -fx-background-color: transparent;
@@ -93,12 +94,14 @@
 
 .closebtn {
     -fx-background-color: transparent;
+    -fx-cursor: hand;
 }
 .closebtn:hover {
     -fx-background-color: red;
 }
 .minimisebtn {
     -fx-background-color: transparent;
+    -fx-cursor: hand;
 }
 .minimisebtn:hover {
     -fx-background-color: green;
@@ -110,14 +113,32 @@
 .profilebutton {
     -fx-background-color: transparent;
     -fx-background-radius: 20px;
+    -fx-cursor: hand;
 }
 .profilebutton:hover {
-    -fx-background-color: #6c5ce7;
+    -fx-background-color: linear-gradient(to bottom right, #3E1971, #4869CE);
     -fx-background-radius: 20px;
     -fx-text-alignment: left;
+    -fx-text-fill: white;
 }
 .gobackbutton:hover {   
-    -fx-background-color: #6c5ce7;
+    -fx-background-color: linear-gradient(to bottom right, #3E1971, #4869CE);
     -fx-text-fill: white;
     -fx-text-alignment: left;
+    -fx-cursor: hand;
+}
+
+.showhistory_text_fild {
+    -fx-background-color:  transparent;
+    -fx-background-radius:  10px;
+    -fx-border-color:  linear-gradient(to bottom right, #3E1971, #4869CE);
+    -fx-border-radius:  10px;
+    -fx-text-fill: #4869CE;
+    -fx-cursor: hand;
+}
+.showhistory_text_fild:hover {
+    -fx-background-color:  linear-gradient(to bottom right, #3E1971, #4869CE);
+    -fx-border-color:  linear-gradient(to bottom right, #3E1971, #4869CE);
+    -fx-border-radius:  10px;
+    -fx-text-fill: white;
 }

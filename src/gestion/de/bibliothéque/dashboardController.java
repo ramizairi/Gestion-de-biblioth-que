@@ -36,7 +36,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
@@ -58,6 +61,7 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Alert;
 import static javafx.collections.FXCollections.observableArrayList;
+import javafx.scene.control.Label;
 
 public class dashboardController implements Initializable {
 
@@ -80,7 +84,13 @@ public class dashboardController implements Initializable {
     private Pane PersonalInformation_panel;
 
     @FXML
+    private Pane ProfileHistory_Panel;
+
+    @FXML
     private JFXButton modifie_data_btn;
+
+    @FXML
+    private JFXButton profile_retour_btn;
 
     @FXML
     private JFXButton history_btn;
@@ -116,6 +126,9 @@ public class dashboardController implements Initializable {
     private Text profile_ady_txt;
 
     @FXML
+    private Text time_now_txt;
+
+    @FXML
     private Text profile_email_txt;
 
     @FXML
@@ -135,6 +148,9 @@ public class dashboardController implements Initializable {
 
     @FXML
     private TextField AddAuth_Fname;
+
+    @FXML
+    private TextField operation_txt;
 
     @FXML
     private TextField AddAuth_ID;
@@ -490,6 +506,9 @@ public class dashboardController implements Initializable {
     private double x = 0;
     private double y = 0;
 
+    private Label time;
+    private volatile boolean stop = false;
+
     public void signout() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation message");
@@ -499,7 +518,7 @@ public class dashboardController implements Initializable {
 
         if (option.isPresent() && option.get() == ButtonType.OK) {
             String operation_type = "Déconnection";
-            String operation_desc = "Le manageur : " + getData.fname + " " + getData.lname + " est déconnecter";
+            String operation_desc = getData.fname + " " + getData.lname + " est déconnecter";
             logHistory(operation_type, operation_desc);
             try {
                 // Load the FXML file
@@ -632,19 +651,34 @@ public class dashboardController implements Initializable {
             TotalAuth();
             TotalAuthBooks();
         } else if (event.getSource() == user_profile_btn) {
-            gerer_livre_form.setVisible(false);
-            gerer_reservation_form.setVisible(false);
-            gerer_clients_form.setVisible(false);
-            gerer_auth_form.setVisible(false);
-            stats_form.setVisible(false);
+            rightsidepane.setVisible(false);
             profile_form.setVisible(true);
             gerer_livre_btn.setStyle("-fx-background-color: transparent");
             voir_reservation_btn.setStyle("-fx-background-color: transparent");
             gerer_client_btn.setStyle("-fx-background-color: transparent");
             gerer_auth_btn.setStyle("-fx-background-color: transparent");
             stats_btn.setStyle("-fx-background-color: transparent;");
-            user_profile_btn.setStyle("-fx-background-color: red;");
+            user_profile_btn.setStyle("-fx-background-color: transparent;");
         }
+    }
+
+    private void Timenow() {
+        Thread thread = new Thread(() -> {
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+            while (!stop) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                LocalDateTime now = LocalDateTime.now();
+                final String timenow = sdf.format(java.sql.Timestamp.valueOf(now));
+                Platform.runLater(() -> {
+                    time_now_txt.setText(timenow); // This is the label
+                });
+            }
+        });
+        thread.start();
     }
 
     //-------------CLIENT---------------------
@@ -662,11 +696,10 @@ public class dashboardController implements Initializable {
             AbonneData AbonneD;
             while (result.next()) {
                 AbonneD = new AbonneData(
-                        result.getInt("id_abonne"),
-                        result.getString("nom"),
+                                                result.getString("nom"),
                         result.getString("prenom"),
                         result.getString("adresse"),
-                        result.getInt("numero"),
+                        result.getInt("id_abonne"),
                         result.getString("adresse_mail"),
                         result.getString("mot_de_passe")
                 );
@@ -2205,25 +2238,27 @@ public class dashboardController implements Initializable {
         if (event.getSource() == personal_information_btn) {
             PersonalInformation_panel.setVisible(true);
             ModifieInformations_panel.setVisible(false);
-            //LogsHistory_panel.setVisible(false);
+            ProfileHistory_Panel.setVisible(false);
             personal_information_btn.setStyle("-fx-text-fill: black;");
             modifie_data_btn.setStyle("-fx-text-fill: #b7b7b7;");
             history_btn.setStyle("-fx-text-fill: #b7b7b7;");
-
         } else if (event.getSource() == modifie_data_btn) {
             PersonalInformation_panel.setVisible(false);
             ModifieInformations_panel.setVisible(true);
-            //LogsHistory_panel.setVisible(false);
+            ProfileHistory_Panel.setVisible(false);
             personal_information_btn.setStyle("-fx-text-fill: #b7b7b7;");
             modifie_data_btn.setStyle("-fx-text-fill: black;");
             history_btn.setStyle("-fx-text-fill: #b7b7b7;");
         } else if (event.getSource() == history_btn) {
-            PersonalInformation_panel.setVisible(true);
+            PersonalInformation_panel.setVisible(false);
             gerer_reservation_form.setVisible(false);
-            //LogsHistory_panel.setVisible(false);
+            ProfileHistory_Panel.setVisible(true);
             personal_information_btn.setStyle("-fx-text-fill: #b7b7b7;");
             modifie_data_btn.setStyle("-fx-text-fill: #b7b7b7;");
             history_btn.setStyle("-fx-text-fill: black;");
+        } else if (event.getSource() == profile_retour_btn) {
+            profile_form.setVisible(false);
+            rightsidepane.setVisible(true);
         }
     }
     //-------------STATS-----------------------
@@ -2398,11 +2433,19 @@ public class dashboardController implements Initializable {
     public void HistoryShowListData() {
         addHistoryList = addHistoryListData();
 
-        History_Col_Type.setCellValueFactory(new PropertyValueFactory<>("type_operation"));
-        History_Col_Desc.setCellValueFactory(new PropertyValueFactory<>("desc_operation"));
+        History_Col_Type.setCellValueFactory(new PropertyValueFactory<>("operation_type"));
+        History_Col_Desc.setCellValueFactory(new PropertyValueFactory<>("operation"));
         History_Col_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         History_tableview.setItems(addHistoryList);
+    }
+
+    public void HistorySelect() {
+        HistoryData hisData = History_tableview.getSelectionModel().getSelectedItem();
+
+        if (hisData != null) {
+            operation_txt.setText(String.valueOf(hisData.getOperation()));
+        }
     }
 
     //---------------MAIN----------------------
@@ -2441,6 +2484,8 @@ public class dashboardController implements Initializable {
         display_data();
         HistoryShowListData();
 
+        //Edits
+        Timenow();
     }
 
 }
